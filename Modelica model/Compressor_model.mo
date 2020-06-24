@@ -302,6 +302,52 @@ package Compressor_model
 
   end Inside_HT;
 
+  function tic  "Function to record the internal time just before the experiment starts in [s]"
+    Real ms_tic;
+    Real sec_tic;
+    Real min_tic;
+    Real hour_tic;
+    Real day_tic;
+    Real mon_tic;
+    Real year_tic;
+
+  output Modelica.SIunits.Time tic
+  "Record the internal time at the execution of this (tic) function";
+
+  algorithm
+
+  (ms_tic,sec_tic,min_tic,hour_tic,day_tic,mon_tic,year_tic) :=Modelica.Utilities.System.getTime();
+
+  tic := (ms_tic*0.001) + (sec_tic) + (min_tic*60) + (hour_tic*3600);
+
+  Modelica.Utilities.Streams.print("tic =" + String(tic) + "[s]");
+
+
+  end tic;
+
+  function toc  "Function to record the internal time just after the experiment starts in [s]"
+    Real ms_toc;
+    Real sec_toc;
+    Real min_toc;
+    Real hour_toc;
+    Real day_toc;
+    Real mon_toc;
+    Real year_toc;
+
+  output Modelica.SIunits.Time toc
+  "Record the internal time at the execution of this (toc) function";
+
+  algorithm
+
+  (ms_toc,sec_toc,min_toc,hour_toc,day_toc,mon_toc,year_toc) :=Modelica.Utilities.System.getTime();
+
+  toc := (ms_toc*0.001) + (sec_toc) + (min_toc*60) + (hour_toc*3600);
+
+  Modelica.Utilities.Streams.print("toc =" + String(toc) + "[s]");
+
+
+  end toc;
+
     function outside_HT "This function calculate the heat transfer from cylinder wall to the environment. 
   It need some input for air velocity and only consider convective heat transfer to the ambient.
   It do not calcualte the readiation heat transfer. Also, it do not consider shell heat transfer for 
@@ -486,13 +532,13 @@ model Rec_Compressor_noheat
   import Modelica.SIunits.Conversions.*;
 
   /*********************Compressor Specifications******************************/
-  parameter SI.Length B=(0.02)                              "cylinder bore diamter in m";
-  parameter SI.Volume V_dead=8e-8                   "clearance Volume in m3";
-  parameter SI.Volume V_disp=8e-6;
-  parameter SI.Diameter D_shell=0.05;
-  parameter SI.Length L_shell=0.254;
-  parameter SI.Diameter d=0.0059                            "Valve diameters";
-  parameter SI.AngularVelocity w =   from_rpm(3600);
+  parameter SI.Length B=(0.02)                              "Cylinder bore diameter";
+  parameter SI.Volume V_dead=8e-8                   "Clearance volume";
+  parameter SI.Volume V_disp=8e-6                   "Displacement volume";
+  parameter SI.Diameter D_shell=0.05                "Piston diameter";
+  parameter SI.Length L_shell=0.254                 "Length of the shell";
+  parameter SI.Diameter d=0.0059                     "Valve diameter";
+  parameter SI.AngularVelocity w =   from_rpm(3600)   "Angular velocity";
   parameter Real PR=2.5                                       "Compression ratio";
 
   /******************Instantaneous Fluid Properties***************************/
@@ -502,13 +548,13 @@ model Rec_Compressor_noheat
   SI.SpecificEnthalpy h                      "Enthalpy at specified temperature and density conditions";
   SI.SpecificEnergy u                        "Specific Internal enerygy";
   SI.DynamicViscosity mu=11.668e-6           "Dynamic Viscosity";
-  parameter Real Pr=0.8                      "Prandtle number";
+  parameter Real Pr=0.8                      "Prandtl number";
 
   /******************Suction Fluid Properties***************************/
 
   SI.Pressure P_s                           "Suction Pressure";
-  parameter SI.Temperature T_s=293          "Suction Tempersture";
-  parameter SI.Density rho_s=23.75           "Suction Density";
+  parameter SI.Temperature T_s=293          "Suction temperature";
+  parameter SI.Density rho_s=23.75          "Suction density";
   SI.SpecificEnthalpy h_s                   "suction flow specific Enthalpy";
 
   /******************Discharge Fluid Properties***************************/
@@ -516,7 +562,7 @@ model Rec_Compressor_noheat
 
   /******************ThermoPhysical Properties***************************/
   parameter SI.RatioOfSpecificHeatCapacities gamma=1.26       "Specific heat capacity ratio";
-  parameter Real R=81.49                                       "Gas Constant";
+  parameter Real R=81.49                                       "Gas constant";
   Real drhodT=-6.1634e3;
   Real dudT=5.4693e3;
 
@@ -525,7 +571,7 @@ model Rec_Compressor_noheat
   parameter SI.ThermalConductivity k_solid=160   "Shell thermal conductivity";
   parameter SI.Density rho_air=1.2               "Air density";
   parameter SI.Velocity V_air=1                  "Wind velocity";
-  parameter Real Pr_air=0.7                      "Outside air Prandtle number";
+  parameter Real Pr_air=0.7                      "Outside air Prandtl number";
 
   /****************** Mass Flow Rates ***************************/
   SI.MassFlowRate mdot_in;
@@ -539,27 +585,36 @@ model Rec_Compressor_noheat
   SI.HeatFlowRate Qdot;
   SI.Temperature Tamb=295;
   SI.Temperature T_w;
+  Real Wdot_PV;
+
+  Modelica.SIunits.Time T_initial;
+  Modelica.SIunits.Time T_final;
 
   /****************** VLE Fluid import ***************************/
 
 TILMedia.VLEFluid_dT vleFluid(
   computeTransportProperties=true,
+    interpolateTransportProperties=false,
                               T=T,d=rho,
   final vleFluidType=sim.vleFluidType1)
   annotation (Placement(transformation(extent={{-12,46},{8,66}})));
 TILMedia.VLEFluid_dT vleFluid1(
   computeTransportProperties=true,
+    interpolateTransportProperties=false,
                                T=T_s,d=rho_s,
   final vleFluidType=sim.vleFluidType1)
   annotation (Placement(transformation(extent={{-14,-2},{6,18}})));
 
   inner TIL.SystemInformationManager sim(redeclare
-      TILMedia.VLEFluidTypes.TILMedia_R134a vleFluidType1)
-    annotation (Placement(transformation(extent={{54,66},{74,86}})));
+      TILMedia.VLEFluidTypes.Refprop_R134a vleFluidType1)
+    annotation (Placement(transformation(extent={{54,64},{74,84}})));
 
 initial equation
   T=T_s;
   rho=rho_s;
+
+algorithm
+  T_initial:=functions.tic();
 
 equation
 
@@ -599,10 +654,16 @@ equation
   der(rho)=(1/V)*(-rho*dVdt+(mdot_in-mdot_out));
   der(T)=((-rho*h*dVdt)-((u*V+rho*V*drhodT)*der(rho))+(Qdot+mdot_in*h_s-mdot_out*h))/(rho*V*dudT);
 
+  Wdot_PV=P*dVdt;
+
+algorithm
+
+   T_final:=functions.toc();
+
 annotation (experiment(
-          StopTime=0.018,
-          __Dymola_NumberOfIntervals=1000,
-          __Dymola_Algorithm="Cerk45"));
+      StopTime=0.0173,
+      __Dymola_NumberOfIntervals=1000,
+      __Dymola_Algorithm="Cerk45"));
 end Rec_Compressor_noheat;
 
 model Rec_Compressor_v
@@ -938,10 +999,8 @@ package blocks
         __Dymola_NumberOfIntervals=1000,
         __Dymola_Algorithm="Cerk45"));
   end Comp_block;
-end blocks;
 
-package models
-  " Valve and volume model"
+package models "Valve and volume model"
   model valve_model "This model is based on 1-D mass spring vibration model. It 
   simulates time dependent valve opening in response to the pressure difference. 
   Also, it divides valve opening into two regions i.e. pressure dominant and 
@@ -1027,6 +1086,7 @@ package models
   dVdt=der(V);
   end Volume;
 end models;
+end blocks;
 
 package testers
   model Comp_block_tester

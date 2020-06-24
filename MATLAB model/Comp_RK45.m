@@ -7,7 +7,7 @@ format long
 tic
 %% number of steps in one cycle
 solver_tol=1e-8;             % solver tolerance
-dtheta0=1e-5;                %initial step size to start the solver solver
+dtheta0=1e-7;                %initial step size to start the solver solver
 valve_dynamics = input('Turn on valve dynamics? 1 for on 0 for off: ');  %Zero for off, One for on
 heat_transfer = input('Turn on heat transfer? 1 for on 0 for off: ');    %Zero for off, One for on
 
@@ -303,10 +303,10 @@ plot(rad,Qdot);title('Heat Transfer');
 % portion of the code
 
 
-% Tab=table(rad',P',V',T',rho',mdot',h',dtheta');
-% col_header={'theta','Pressure','Volume','Temperature','Density','Mass','Enthalpy','dtheta'};
-% output_matrix=[{' '} col_header ];
-% filename = 'C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work\model\VNoHT2.xlsx';
-% 
-% writetable(Tab,filename,'Sheet',1,'Range','B1');
-% xlswrite(filename,output_matrix);
+Tab=table(rad',P',V',T',rho',mdot');
+col_header={'theta','Pressure','Volume','Temperature','Density','Mass'};
+output_matrix=[{' '} col_header ];
+filename = 'C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work\results\PV_mat3.xlsx';
+
+writetable(Tab,filename,'Sheet',1,'Range','B1');
+xlswrite(filename,output_matrix);

@@ -5,20 +5,20 @@ addpath('functions');
 addpath('C:\Program Files (x86)\REFPROP');
 %% number of steps in one cycle
 
-n=4000;            %number of steps
+n=30000;            %number of steps
 tol_inner=1e-4;    % convergence tolerancr T, rho, T_w etc
 valve_dynamics = input('Turn on valve dynamics? 1 for on 0 for off: ');  %Zero for off, One for on
 heat_transfer = input('Turn on heat transfer? 1 for on 0 for off: ');    %Zero for off, One for on
 %% Comp parameters
 
-Vdead=0.5e-6;
-V_disp=8e-6;
+Vdead=8e-8;                                % Clearance volume of the compressor
+V_disp=8e-6;                                 %Displacement volume of the compressor
 d=0.0059;                                    %valve diameter in m%
     
 theta_01=linspace(0,360,n);                  %crank angle%
 rad=linspace(0,2*pi,n);                      %crank angle in radian
 
-N=3000;                                      %compressor RPM%
+N=3600;                                      %compressor RPM%
 B=2;                                         %cylinder bore diameter in cm%
 
 w=2*pi*N/60;                                 %angular speed
@@ -81,7 +81,7 @@ dtheta=rad(2);
   T_w(1) = 300;
    T(1)=T0;
 rho(1)=rho0;
-valve_dynamics(1)=0;
+%valve_dynamics(1)=0;
 x_valve_suc(1)=0;
 x_dot_valve_suc(1)=0;
 x_valve_dis(1)=0;
@@ -126,7 +126,7 @@ Q_dot_cyl(f) = trapz(Qdot)*(dtheta/w);
     A_length = pi*(B/100)*l_piston;
     u_ave = 4.8;
     F_viscous = (mu_oil*A_length*u_ave)/delta_gap;
-    W_dot_friction = (F_viscous*u_ave)/1000; 
+    W_dot_friction = (F_viscous*u_ave)/1000 
     
 % Cylinder wall temperature calculation using heat transfer to ambient  
 if heat_transfer == 1
@@ -175,9 +175,9 @@ time(end)=[];
 m_dot_tot_out =(N/60)* trapz(mdot_out.*dtime)         % average discjarge mass flow rate
 m_dot_tot_in = (N/60)*trapz(mdot_in.*dtime)           % average suction mass flow rate
 Wdot=m_dot_tot_out*(h_2_s-h_in)                       % isentropic power 
-eta_vol=m_dot_tot_in/(rho0*V_disp*(w/(2*pi)));        % volumetric efficiency
+eta_vol=m_dot_tot_in/(rho0*V_disp*(w/(2*pi)))        % volumetric efficiency
 
-W_PV=trapz((((P*1000).*(dV_dtheta)).*dtheta)*(377/(2*pi))); % indicared power
+W_PV=trapz((((P*1000).*(dV_dtheta)).*dtheta)*(377/(2*pi))) % indicared power
 %% Plots
  T(n+1)=[];
 rho(n+1)=[];
@@ -237,10 +237,10 @@ figure
 plot(theta_01,Qdot);title('Heat Transfer');
 
 %% exporting the results to escell file
-% Tab=table(rad',P',V',T',rho',mdot',h');
-% col_header={'theta','Pressure','Volume','Temperature','Density','Mass','Enthalpy'};
-% output_matrix=[{' '} col_header ];
-% filename = 'D:\Phd\compressor_model_work\compressor_model_work\Python_codes_rec\PV_mat1.xlsx';
-% 
-% writetable(Tab,filename,'Sheet',1,'Range','B1');
-% xlswrite(filename,output_matrix);
+Tab=table(rad',P',V',T',rho',mdot');
+col_header={'theta','Pressure','Volume','Temperature','Density','Mass'};
+output_matrix=[{' '} col_header ];
+filename = 'C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work\results\PV_mat1.xlsx';
+
+writetable(Tab,filename,'Sheet',1,'Range','B1');
+xlswrite(filename,output_matrix);

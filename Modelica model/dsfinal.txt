@@ -1,0 +1,950 @@
+#1
+char Aclass(3,24)
+Adymosim
+1.4
+Modelica experiment file
+
+# Experiment parameters
+double experiment(7,1)
+  1.7299999999999999E-02
+  3.4599999999999999E-02
+       0                
+    7000                
+  1.0000000000000000E-04
+       0                
+      28                
+
+# Method parameters
+double method(27,1)
+       1                
+       1                
+       3                
+       1                
+       1                
+       0                
+       0                
+       0                
+       0                
+       0                
+       0                
+       0                
+       0                
+     100                
+       0                
+       0                
+       0                
+       0                
+       0                
+  2.0000000000000000E-14
+  1.0000000000000000E-10
+      20                
+  9.9999999999999995E-07
+       1                
+       1                
+       1                
+    2473                
+
+# Input/output settings
+int settings(13,1)
+ 0
+ 1
+ 1
+ 1
+ 1
+ 0
+ 1
+ 1
+ 0
+ 0
+ 1
+ 0
+ 1
+
+# initialName
+char initialName(293,57)
+sim.nVLEFluids
+sim.vleFluidType1.fixedMixingRatio
+sim.vleFluidType1.nc_propertyCalculation
+sim.vleFluidType1.nc
+sim.vleFluidType1.mixingRatio_propertyCalculation[1]
+sim.vleFluidType1.defaultMixingRatio[1]
+sim.vleFluidType1.ID
+sim.vleFluidType2.fixedMixingRatio
+sim.vleFluidType2.nc_propertyCalculation
+sim.vleFluidType2.nc
+sim.vleFluidType2.mixingRatio_propertyCalculation[1]
+sim.vleFluidType2.defaultMixingRatio[1]
+sim.vleFluidType2.ID
+sim.vleFluidType3.fixedMixingRatio
+sim.vleFluidType3.nc_propertyCalculation
+sim.vleFluidType3.nc
+sim.vleFluidType3.mixingRatio_propertyCalculation[1]
+sim.vleFluidType3.defaultMixingRatio[1]
+sim.vleFluidType3.ID
+sim.nGases
+sim.gasType1.fixedMixingRatio
+sim.gasType1.nc_propertyCalculation
+sim.gasType1.nc
+sim.gasType1.mixingRatio_propertyCalculation[1]
+sim.gasType1.mixingRatio_propertyCalculation[2]
+sim.gasType1.defaultMixingRatio[1]
+sim.gasType1.defaultMixingRatio[2]
+sim.gasType1.xi_default[1]
+sim.gasType1.condensingIndex
+sim.gasType1.ID
+sim.gasType2.fixedMixingRatio
+sim.gasType2.nc_propertyCalculation
+sim.gasType2.nc
+sim.gasType2.mixingRatio_propertyCalculation[1]
+sim.gasType2.mixingRatio_propertyCalculation[2]
+sim.gasType2.defaultMixingRatio[1]
+sim.gasType2.defaultMixingRatio[2]
+sim.gasType2.xi_default[1]
+sim.gasType2.condensingIndex
+sim.gasType2.ID
+sim.gasType3.fixedMixingRatio
+sim.gasType3.nc_propertyCalculation
+sim.gasType3.nc
+sim.gasType3.mixingRatio_propertyCalculation[1]
+sim.gasType3.mixingRatio_propertyCalculation[2]
+sim.gasType3.defaultMixingRatio[1]
+sim.gasType3.defaultMixingRatio[2]
+sim.gasType3.xi_default[1]
+sim.gasType3.condensingIndex
+sim.gasType3.ID
+sim.nLiquids
+sim.liquidType1.fixedMixingRatio
+sim.liquidType1.nc_propertyCalculation
+sim.liquidType1.nc
+sim.liquidType1.mixingRatio_propertyCalculation[1]
+sim.liquidType1.defaultMixingRatio[1]
+sim.liquidType1.ID
+sim.liquidType2.fixedMixingRatio
+sim.liquidType2.nc_propertyCalculation
+sim.liquidType2.nc
+sim.liquidType2.mixingRatio_propertyCalculation[1]
+sim.liquidType2.defaultMixingRatio[1]
+sim.liquidType2.ID
+sim.liquidType3.fixedMixingRatio
+sim.liquidType3.nc_propertyCalculation
+sim.liquidType3.nc
+sim.liquidType3.mixingRatio_propertyCalculation[1]
+sim.liquidType3.defaultMixingRatio[1]
+sim.liquidType3.ID
+sim.nMaxPressureStates
+sim.dpdtPort[1].dpdt
+sim.dpdtPort[1].counter
+sim.dpdtPort[2].dpdt
+sim.dpdtPort[2].counter
+sim.dpdtPort[3].dpdt
+sim.dpdtPort[3].counter
+sim.dpdtPort[4].dpdt
+sim.dpdtPort[4].counter
+sim.dpdtPort[5].dpdt
+sim.dpdtPort[5].counter
+sim.dpdtPort[6].dpdt
+sim.dpdtPort[6].counter
+sim.dpdtPort[7].dpdt
+sim.dpdtPort[7].counter
+sim.dpdtPort[8].dpdt
+sim.dpdtPort[8].counter
+sim.dpdtPort[9].dpdt
+sim.dpdtPort[9].counter
+sim.dpdtPort[10].dpdt
+sim.dpdtPort[10].counter
+sim.fluidPort[1].vleFluidMass
+sim.fluidPort[1].vleFluidVolume
+sim.fluidPort[2].vleFluidMass
+sim.fluidPort[2].vleFluidVolume
+sim.fluidPort[3].vleFluidMass
+sim.fluidPort[3].vleFluidVolume
+sim.liquidPort[1].liquidMass
+sim.liquidPort[1].liquidVolume
+sim.liquidPort[2].liquidMass
+sim.liquidPort[2].liquidVolume
+sim.liquidPort[3].liquidMass
+sim.liquidPort[3].liquidVolume
+sim.cumulatedVLEFluidMassOutput[1]
+sim.cumulatedVLEFluidMassOutput[2]
+sim.cumulatedVLEFluidMassOutput[3]
+sim.cumulatedVLEFluidVolumeOutput[1]
+sim.cumulatedVLEFluidVolumeOutput[2]
+sim.cumulatedVLEFluidVolumeOutput[3]
+sim.cumulatedVLEFluidMass[1]
+sim.cumulatedVLEFluidMass[2]
+sim.cumulatedVLEFluidMass[3]
+sim.cumulatedVLEFluidVolume[1]
+sim.cumulatedVLEFluidVolume[2]
+sim.cumulatedVLEFluidVolume[3]
+sim.tableMemory.redirectorOutput
+sim.tableMemory.tableObject.id
+sim.cumulatedLiquidMass[1]
+sim.cumulatedLiquidMass[2]
+sim.cumulatedLiquidMass[3]
+sim.cumulatedLiquidVolume[1]
+sim.cumulatedLiquidVolume[2]
+sim.cumulatedLiquidVolume[3]
+sim.removeSingularity
+sim.removeNLSystems
+sim.generateEventsAtFlowReversalGas
+sim.generateEventsAtFlowReversalLiquid
+sim.generateEventsAtFlowReversalVLEFluid
+B
+V_dead
+V_disp
+D_shell
+L_shell
+d
+w
+PR
+rho
+der(rho)
+T
+der(T)
+P
+h
+u
+mu
+Pr
+P_s
+T_s
+rho_s
+h_s
+P_d
+gamma
+R
+drhodT
+dudT
+mu_air
+k_solid
+rho_air
+V_air
+Pr_air
+mdot_in
+mdot_out
+mdot
+theta_01
+der(theta_01)
+V
+der(V)
+Qdot
+Tamb
+T_w
+Wdot_PV
+T_initial
+T_final
+vleFluid.vleFluidType.fixedMixingRatio
+vleFluid.vleFluidType.nc_propertyCalculation
+vleFluid.vleFluidType.nc
+vleFluid.vleFluidType.mixingRatio_propertyCalculation[1]
+vleFluid.vleFluidType.defaultMixingRatio[1]
+vleFluid.vleFluidType.ID
+vleFluid.vleFluidPointer.id
+vleFluid.stateSelectPreferForInputs
+vleFluid.computeTransportProperties
+vleFluid.interpolateTransportProperties
+vleFluid.computeSurfaceTension
+vleFluid.computeVLEAdditionalProperties
+vleFluid.computeVLETransportProperties
+vleFluid.deactivateTwoPhaseRegion
+vleFluid.s
+vleFluid.M
+vleFluid.q
+vleFluid.cp
+vleFluid.cv
+vleFluid.beta
+vleFluid.kappa
+vleFluid.w
+vleFluid.drhodh_pxi
+vleFluid.drhodp_hxi
+vleFluid.gamma
+vleFluid.M_i[1]
+vleFluid.crit.d
+vleFluid.crit.h
+vleFluid.crit.p
+vleFluid.crit.s
+vleFluid.crit.T
+vleFluid.transp.Pr
+vleFluid.transp.lambda
+vleFluid.transp.eta
+vleFluid.transp.sigma
+vleFluid.VLE.d_l
+vleFluid.VLE.d_v
+vleFluid.VLE.h_l
+vleFluid.VLE.h_v
+vleFluid.VLE.p_l
+vleFluid.VLE.p_v
+vleFluid.VLE.s_l
+vleFluid.VLE.s_v
+vleFluid.VLE.T_l
+vleFluid.VLE.T_v
+vleFluid.VLE.nc
+vleFluid.VLEAdditional.cp_l
+vleFluid.VLEAdditional.cp_v
+vleFluid.VLEAdditional.beta_l
+vleFluid.VLEAdditional.beta_v
+vleFluid.VLEAdditional.kappa_l
+vleFluid.VLEAdditional.kappa_v
+vleFluid.VLETransp.Pr_l
+vleFluid.VLETransp.Pr_v
+vleFluid.VLETransp.lambda_l
+vleFluid.VLETransp.lambda_v
+vleFluid.VLETransp.eta_l
+vleFluid.VLETransp.eta_v
+vleFluid.invalidValue
+vleFluid.computeFlags
+vleFluid1.vleFluidType.fixedMixingRatio
+vleFluid1.vleFluidType.nc_propertyCalculation
+vleFluid1.vleFluidType.nc
+vleFluid1.vleFluidType.mixingRatio_propertyCalculation[1]
+vleFluid1.vleFluidType.defaultMixingRatio[1]
+vleFluid1.vleFluidType.ID
+vleFluid1.vleFluidPointer.id
+vleFluid1.stateSelectPreferForInputs
+vleFluid1.computeTransportProperties
+vleFluid1.interpolateTransportProperties
+vleFluid1.computeSurfaceTension
+vleFluid1.computeVLEAdditionalProperties
+vleFluid1.computeVLETransportProperties
+vleFluid1.deactivateTwoPhaseRegion
+vleFluid1.s
+vleFluid1.M
+vleFluid1.q
+vleFluid1.cp
+vleFluid1.cv
+vleFluid1.beta
+vleFluid1.kappa
+vleFluid1.w
+vleFluid1.drhodh_pxi
+vleFluid1.drhodp_hxi
+vleFluid1.gamma
+vleFluid1.M_i[1]
+vleFluid1.crit.d
+vleFluid1.crit.h
+vleFluid1.crit.p
+vleFluid1.crit.s
+vleFluid1.crit.T
+vleFluid1.transp.Pr
+vleFluid1.transp.lambda
+vleFluid1.transp.eta
+vleFluid1.transp.sigma
+vleFluid1.VLE.d_l
+vleFluid1.VLE.d_v
+vleFluid1.VLE.h_l
+vleFluid1.VLE.h_v
+vleFluid1.VLE.p_l
+vleFluid1.VLE.p_v
+vleFluid1.VLE.s_l
+vleFluid1.VLE.s_v
+vleFluid1.VLE.T_l
+vleFluid1.VLE.T_v
+vleFluid1.VLE.nc
+vleFluid1.VLEAdditional.cp_l
+vleFluid1.VLEAdditional.cp_v
+vleFluid1.VLEAdditional.beta_l
+vleFluid1.VLEAdditional.beta_v
+vleFluid1.VLEAdditional.kappa_l
+vleFluid1.VLEAdditional.kappa_v
+vleFluid1.VLETransp.Pr_l
+vleFluid1.VLETransp.Pr_v
+vleFluid1.VLETransp.lambda_l
+vleFluid1.VLETransp.lambda_v
+vleFluid1.VLETransp.eta_l
+vleFluid1.VLETransp.eta_v
+vleFluid1.invalidValue
+vleFluid1.computeFlags
+CPUtime
+EventCounter
+
+# initialValue
+double initialValue(293,6)
+ -2       3                  0 1.0000000000000000E+100  6   770 # sim.nVLEFluids
+ -2       1                  0       0                  6   769 # sim.vleFluidType1.fixedMixingRatio
+ -2       1                  1 1.0000000000000000E+100  6   770 # sim.vleFluidType1.nc_propertyCalculation
+ -2       1                  0       0                  6   770 # sim.vleFluidType1.nc
+ -2       1                  0       0                  6   768 # sim.vleFluidType1.mixingRatio_propertyCalculation[1]
+ -2       1                  0       0                  6   768 # sim.vleFluidType1.defaultMixingRatio[1]
+ -2       1                  0       0                  6   770 # sim.vleFluidType1.ID
+ -2       1                  0       0                  6   769 # sim.vleFluidType2.fixedMixingRatio
+ -2       1                  1 1.0000000000000000E+100  6   770 # sim.vleFluidType2.nc_propertyCalculation
+ -2       1                  0       0                  6   770 # sim.vleFluidType2.nc
+ -2       1                  0       0                  6   768 # sim.vleFluidType2.mixingRatio_propertyCalculation[1]
+ -2       1                  0       0                  6   768 # sim.vleFluidType2.defaultMixingRatio[1]
+ -2       2                  0       0                  6   770 # sim.vleFluidType2.ID
+ -2       1                  0       0                  6   769 # sim.vleFluidType3.fixedMixingRatio
+ -2       1                  1 1.0000000000000000E+100  6   770 # sim.vleFluidType3.nc_propertyCalculation
+ -2       1                  0       0                  6   770 # sim.vleFluidType3.nc
+ -2       1                  0       0                  6   768 # sim.vleFluidType3.mixingRatio_propertyCalculation[1]
+ -2       1                  0       0                  6   768 # sim.vleFluidType3.defaultMixingRatio[1]
+ -2       3                  0       0                  6   770 # sim.vleFluidType3.ID
+ -2       3                  0 1.0000000000000000E+100  1   794 # sim.nGases
+ -2       0                  0       0                  6   769 # sim.gasType1.fixedMixingRatio
+ -2       2                  1 1.0000000000000000E+100  6   770 # sim.gasType1.nc_propertyCalculation
+ -2       2                  0       0                  6   770 # sim.gasType1.nc
+ -2  1.0000000000000000E-04  0       0                  6   768 # sim.gasType1.mixingRatio_propertyCalculation[1]
+ -2       1                  0       0                  6   768 # sim.gasType1.mixingRatio_propertyCalculation[2]
+ -2  1.0000000000000000E-04  0       0                  6   768 # sim.gasType1.defaultMixingRatio[1]
+ -2       1                  0       0                  6   768 # sim.gasType1.defaultMixingRatio[2]
+ -2  9.9990000999900015E-05  0       0                  6   768 # sim.gasType1.xi_default[1]
+ -2       1                  0       0                  6   770 # sim.gasType1.condensingIndex
+ -2       1                  0       0                  6   770 # sim.gasType1.ID
+ -2       0                  0       0                  6   769 # sim.gasType2.fixedMixingRatio
+ -2       2                  1 1.0000000000000000E+100  6   770 # sim.gasType2.nc_propertyCalculation
+ -2       2                  0       0                  6   770 # sim.gasType2.nc
+ -2  1.0000000000000000E-04  0       0                  6   768 # sim.gasType2.mixingRatio_propertyCalculation[1]
+ -2       1                  0       0                  6   768 # sim.gasType2.mixingRatio_propertyCalculation[2]
+ -2  1.0000000000000000E-04  0       0                  6   768 # sim.gasType2.defaultMixingRatio[1]
+ -2       1                  0       0                  6   768 # sim.gasType2.defaultMixingRatio[2]
+ -2  9.9990000999900015E-05  0       0                  6   768 # sim.gasType2.xi_default[1]
+ -2       1                  0       0                  6   770 # sim.gasType2.condensingIndex
+ -2       2                  0       0                  6   770 # sim.gasType2.ID
+ -2       0                  0       0                  6   769 # sim.gasType3.fixedMixingRatio
+ -2       2                  1 1.0000000000000000E+100  6   770 # sim.gasType3.nc_propertyCalculation
+ -2       2                  0       0                  6   770 # sim.gasType3.nc
+ -2  1.0000000000000000E-04  0       0                  6   768 # sim.gasType3.mixingRatio_propertyCalculation[1]
+ -2       1                  0       0                  6   768 # sim.gasType3.mixingRatio_propertyCalculation[2]
+ -2  1.0000000000000000E-04  0       0                  6   768 # sim.gasType3.defaultMixingRatio[1]
+ -2       1                  0       0                  6   768 # sim.gasType3.defaultMixingRatio[2]
+ -2  9.9990000999900015E-05  0       0                  6   768 # sim.gasType3.xi_default[1]
+ -2       1                  0       0                  6   770 # sim.gasType3.condensingIndex
+ -2       3                  0       0                  6   770 # sim.gasType3.ID
+ -2       3                  0 1.0000000000000000E+100  6   770 # sim.nLiquids
+ -2       0                  0       0                  6   769 # sim.liquidType1.fixedMixingRatio
+ -2       1                  1 1.0000000000000000E+100  6   770 # sim.liquidType1.nc_propertyCalculation
+ -2       1                  0       0                  6   770 # sim.liquidType1.nc
+ -2       1                  0       0                  6   768 # sim.liquidType1.mixingRatio_propertyCalculation[1]
+ -2       1                  0       0                  6   768 # sim.liquidType1.defaultMixingRatio[1]
+ -2       1                  0       0                  6   770 # sim.liquidType1.ID
+ -2       0                  0       0                  6   769 # sim.liquidType2.fixedMixingRatio
+ -2       1                  1 1.0000000000000000E+100  6   770 # sim.liquidType2.nc_propertyCalculation
+ -2       1                  0       0                  6   770 # sim.liquidType2.nc
+ -2       1                  0       0                  6   768 # sim.liquidType2.mixingRatio_propertyCalculation[1]
+ -2       1                  0       0                  6   768 # sim.liquidType2.defaultMixingRatio[1]
+ -2       2                  0       0                  6   770 # sim.liquidType2.ID
+ -2       0                  0       0                  6   769 # sim.liquidType3.fixedMixingRatio
+ -2       1                  1 1.0000000000000000E+100  6   770 # sim.liquidType3.nc_propertyCalculation
+ -2       1                  0       0                  6   770 # sim.liquidType3.nc
+ -2       1                  0       0                  6   768 # sim.liquidType3.mixingRatio_propertyCalculation[1]
+ -2       1                  0       0                  6   768 # sim.liquidType3.defaultMixingRatio[1]
+ -2       3                  0       0                  6   770 # sim.liquidType3.ID
+ -2      10                  0 1.0000000000000000E+100  6   258 # sim.nMaxPressureStates
+ -2       0                  0       0                  6   900 # sim.dpdtPort[1].dpdt
+ -2       0                  0       0                  6   900 # sim.dpdtPort[1].counter
+ -2       0                  0       0                  6   900 # sim.dpdtPort[2].dpdt
+ -2       0                  0       0                  6   900 # sim.dpdtPort[2].counter
+ -2       0                  0       0                  6   900 # sim.dpdtPort[3].dpdt
+ -2       0                  0       0                  6   900 # sim.dpdtPort[3].counter
+ -2       0                  0       0                  6   900 # sim.dpdtPort[4].dpdt
+ -2       0                  0       0                  6   900 # sim.dpdtPort[4].counter
+ -2       0                  0       0                  6   900 # sim.dpdtPort[5].dpdt
+ -2       0                  0       0                  6   900 # sim.dpdtPort[5].counter
+ -2       0                  0       0                  6   900 # sim.dpdtPort[6].dpdt
+ -2       0                  0       0                  6   900 # sim.dpdtPort[6].counter
+ -2       0                  0       0                  6   900 # sim.dpdtPort[7].dpdt
+ -2       0                  0       0                  6   900 # sim.dpdtPort[7].counter
+ -2       0                  0       0                  6   900 # sim.dpdtPort[8].dpdt
+ -2       0                  0       0                  6   900 # sim.dpdtPort[8].counter
+ -2       0                  0       0                  6   900 # sim.dpdtPort[9].dpdt
+ -2       0                  0       0                  6   900 # sim.dpdtPort[9].counter
+ -2       0                  0       0                  6   900 # sim.dpdtPort[10].dpdt
+ -2       0                  0       0                  6   900 # sim.dpdtPort[10].counter
+ -2       0                  0       0                  6   900 # sim.fluidPort[1].vleFluidMass
+ -2       0                  0       0                  6   900 # sim.fluidPort[1].vleFluidVolume
+ -2       0                  0       0                  6   900 # sim.fluidPort[2].vleFluidMass
+ -2       0                  0       0                  6   900 # sim.fluidPort[2].vleFluidVolume
+ -2       0                  0       0                  6   900 # sim.fluidPort[3].vleFluidMass
+ -2       0                  0       0                  6   900 # sim.fluidPort[3].vleFluidVolume
+ -2       0                  0       0                  6   900 # sim.liquidPort[1].liquidMass
+ -2       0                  0       0                  6   900 # sim.liquidPort[1].liquidVolume
+ -2       0                  0       0                  6   900 # sim.liquidPort[2].liquidMass
+ -2       0                  0       0                  6   900 # sim.liquidPort[2].liquidVolume
+ -2       0                  0       0                  6   900 # sim.liquidPort[3].liquidMass
+ -2       0                  0       0                  6   900 # sim.liquidPort[3].liquidVolume
+ -2       0                  0       0                  6  1280 # sim.cumulatedVLEFluidMassOutput[1]
+ -2       0                  0       0                  6  1280 # sim.cumulatedVLEFluidMassOutput[2]
+ -2       0                  0       0                  6  1280 # sim.cumulatedVLEFluidMassOutput[3]
+ -2       0                  0       0                  6  1280 # sim.cumulatedVLEFluidVolumeOutput[1]
+ -2       0                  0       0                  6  1280 # sim.cumulatedVLEFluidVolumeOutput[2]
+ -2       0                  0       0                  6  1280 # sim.cumulatedVLEFluidVolumeOutput[3]
+ -2       0                  0 1.0000000000000000E+100  6   256 # sim.cumulatedVLEFluidMass[1]
+ -2       0                  0 1.0000000000000000E+100  6   256 # sim.cumulatedVLEFluidMass[2]
+ -2       0                  0 1.0000000000000000E+100  6   256 # sim.cumulatedVLEFluidMass[3]
+ -2       0                  0       0                  6   256 # sim.cumulatedVLEFluidVolume[1]
+ -2       0                  0       0                  6   256 # sim.cumulatedVLEFluidVolume[2]
+ -2       0                  0       0                  6   256 # sim.cumulatedVLEFluidVolume[3]
+ -2       0                  0       0                  6  1282 # sim.tableMemory.redirectorOutput
+ -2       0                  0       0                  6  1282 # sim.tableMemory.tableObject.id
+ -2       0                  0 1.0000000000000000E+100  6   256 # sim.cumulatedLiquidMass[1]
+ -2       0                  0 1.0000000000000000E+100  6   256 # sim.cumulatedLiquidMass[2]
+ -2       0                  0 1.0000000000000000E+100  6   256 # sim.cumulatedLiquidMass[3]
+ -2       0                  0       0                  6   256 # sim.cumulatedLiquidVolume[1]
+ -2       0                  0       0                  6   256 # sim.cumulatedLiquidVolume[2]
+ -2       0                  0       0                  6   256 # sim.cumulatedLiquidVolume[3]
+ -2       1                  0       0                  1   281 # sim.removeSingularity
+ -2       0                  0       0                  6   257 # sim.removeNLSystems
+ -2       1                  0       0                  1   281 # sim.generateEventsAtFlowReversalGas
+ -2       1                  0       0                  1   281 # sim.generateEventsAtFlowReversalLiquid
+ -2       1                  0       0                  1   281 # sim.generateEventsAtFlowReversalVLEFluid
+ -2  2.0000000000000000E-02  0       0                  1   280 # B
+ -2  8.0000000000000002E-08  0       0                  1   280 # V_dead
+ -2  7.9999999999999996E-06  0       0                  1   280 # V_disp
+ -2  5.0000000000000003E-02  0 1.0000000000000000E+100  1   280 # D_shell
+ -2  2.5400000000000000E-01  0       0                  1   280 # L_shell
+ -2  5.8999999999999999E-03  0 1.0000000000000000E+100  1   280 # d
+ -2  3.7699111843077515E+02  0       0                  1   280 # w
+ -2  2.5000000000000000E+00  0       0                  1   280 # PR
+ -2  2.3506606450809809E+01  0 1.0000000000000000E+100  2   272 # rho
+ -2  1.5271403811554013E+04  0       0                  3   256 # der(rho)
+ -2  2.9309540696524982E+02  0 1.0000000000000000E+100  2   272 # T
+ -2  1.9623454756896543E+04  0       0                  3   256 # der(T)
+ -2  4.9553117737225187E+05  0 1.0000000000000000E+100  6   256 # P
+ -2  4.1166496062013198E+05  0       0                  6   256 # h
+ -2  3.9058445380987821E+05  0       0                  6   256 # u
+ -2  1.1668000000000001E-05  0 1.0000000000000000E+100  6   256 # mu
+ -2  8.0000000000000004E-01  0       0                  1   280 # Pr
+ -2  4.9975214657601656E+05  0 1.0000000000000000E+100  6   256 # P_s
+ -2     293                  0 1.0000000000000000E+100  1   280 # T_s
+ -2  2.3750000000000000E+01  0 1.0000000000000000E+100  1   280 # rho_s
+ -2  4.1146742096671817E+05  0       0                  6   256 # h_s
+ -2  1.2493803664400415E+06  0       0                  6   256 # P_d
+ -2  1.2600000000000000E+00  0       0                  1   280 # gamma
+ -2  8.1489999999999995E+01  0       0                  1   280 # R
+ -2 -6.1633999999999996E+03  0       0                  6   256 # drhodT
+ -2  5.4693000000000002E+03  0       0                  6   256 # dudT
+ -2  1.6820000000000002E-05  0 1.0000000000000000E+100  1   280 # mu_air
+ -2     160                  0       0                  1   280 # k_solid
+ -2  1.2000000000000000E+00  0 1.0000000000000000E+100  1   280 # rho_air
+ -2       1                  0       0                  1   280 # V_air
+ -2  6.9999999999999996E-01  0       0                  1   280 # Pr_air
+ -2  1.1337815436828455E-02  0       0                  6   256 # mdot_in
+ -2       0                  0       0                  6   256 # mdot_out
+ -2  1.1337815436828455E-02  0       0                  6   256 # mdot
+ -2  6.5219463488523850E+00  0       0                  2   280 # theta_01
+ -2  3.7699111843077515E+02  0       0                  3   256 # der(theta_01)
+ -2  1.9347306834127970E-07  0       0                  6   256 # V
+ -2  3.5663208558288438E-04  0       0                  6   256 # der(V)
+ -2       0                  0       0                  6   256 # Qdot
+ -2     295                  0 1.0000000000000000E+100  6   256 # Tamb
+ -2  3.0185000000000002E+02  0 1.0000000000000000E+100  6   256 # T_w
+ -2  1.7672231725760838E+02  0       0                  6   256 # Wdot_PV
+ -2  5.3790544000000002E+04  0       0                  6   256 # T_initial
+ -2  5.3790544000000002E+04  0       0                  6   256 # T_final
+ -2       1                  0       0                  6   769 # vleFluid.vleFluidType.fixedMixingRatio
+ -2       1                  1 1.0000000000000000E+100  6   770 # vleFluid.vleFluidType.nc_propertyCalculation
+ -2       1                  0       0                  6   770 # vleFluid.vleFluidType.nc
+ -2       1                  0       0                  6   768 # vleFluid.vleFluidType.mixingRatio_propertyCalculation[1]
+ -2       1                  0       0                  6   768 # vleFluid.vleFluidType.defaultMixingRatio[1]
+ -2       1                  0       0                  6   770 # vleFluid.vleFluidType.ID
+ -2       1                  0       0                  6   258 # vleFluid.vleFluidPointer.id
+ -2       0                  0       0                  6   257 # vleFluid.stateSelectPreferForInputs
+ -2       1                  0       0                  6   257 # vleFluid.computeTransportProperties
+ -2       0                  0       0                  1   281 # vleFluid.interpolateTransportProperties
+ -2       1                  0       0                  1   281 # vleFluid.computeSurfaceTension
+ -2       0                  0       0                  6   257 # vleFluid.computeVLEAdditionalProperties
+ -2       0                  0       0                  6   257 # vleFluid.computeVLETransportProperties
+ -2       0                  0       0                  6   257 # vleFluid.deactivateTwoPhaseRegion
+ -2  1.7347449880309262E+03  0       0                  6   256 # vleFluid.s
+ -2  1.0203200000000000E-01  0 1.0000000000000000E+100  6   256 # vleFluid.M
+ -2       1                  0       1                  6   256 # vleFluid.q
+ -2  9.6157578259410070E+02  0       0                  6   256 # vleFluid.cp
+ -2  8.0436602561373138E+02  0       0                  6   256 # vleFluid.cv
+ -2  5.4145796712974483E-03  0       0                  6   256 # vleFluid.beta
+ -2  2.3252469147562250E-06  0       0                  6   256 # vleFluid.kappa
+ -2  1.4788883660989663E+02  0       0                  6   256 # vleFluid.w
+ -2 -1.3236439158895798E-04  0       0                  6   256 # vleFluid.drhodh_pxi
+ -2  5.1353364959521040E-05  0       0                  6   256 # vleFluid.drhodp_hxi
+ -2  1.1954455459010944E+00  0       0                  6   256 # vleFluid.gamma
+ -2  1.0203200000000000E-01  0 1.0000000000000000E+100  6   256 # vleFluid.M_i[1]
+ -2  5.1189995169600002E+02  0 1.0000000000000000E+100  6   256 # vleFluid.crit.d
+ -2  3.8963862522948958E+05  0       0                  6   256 # vleFluid.crit.h
+ -2  4.0591060710186088E+06  0 1.0000000000000000E+100  6   256 # vleFluid.crit.p
+ -2  1.5620983223443106E+03  0       0                  6   256 # vleFluid.crit.s
+ -2  3.7420999999999998E+02  0 1.0000000000000000E+100  6   256 # vleFluid.crit.T
+ -2  8.3532069004715270E-01  0       0                  6   256 # vleFluid.transp.Pr
+ -2  1.3241428268444051E-02  0       0                  6   256 # vleFluid.transp.lambda
+ -2  1.1502826088825854E-05 -1 1.0000000000000000E+100  6   256 # vleFluid.transp.eta
+ -2  8.6987834360597715E-03  0       0                  6   256 # vleFluid.transp.sigma
+ -2  1.2255335235218831E+03  0 1.0000000000000000E+100  6   256 # vleFluid.VLE.d_l
+ -2  2.7733508033463977E+01  0 1.0000000000000000E+100  6   256 # vleFluid.VLE.d_v
+ -2  2.2739093800517189E+05  0       0                  6   256 # vleFluid.VLE.h_l
+ -2  4.0971930485160119E+05  0       0                  6   256 # vleFluid.VLE.h_v
+ -2  5.7074185340333974E+05  0 1.0000000000000000E+100  6   256 # vleFluid.VLE.p_l
+ -2  5.7074185340333974E+05  0 1.0000000000000000E+100  6   256 # vleFluid.VLE.p_v
+ -2  1.0959816016178513E+03  0       0                  6   256 # vleFluid.VLE.s_l
+ -2  1.7180601552679489E+03  0       0                  6   256 # vleFluid.VLE.s_v
+ -2  2.9309540696524982E+02  0 1.0000000000000000E+100  6   256 # vleFluid.VLE.T_l
+ -2  2.9309540696524982E+02  0 1.0000000000000000E+100  6   256 # vleFluid.VLE.T_v
+ -2       1                  0       0                  6   258 # vleFluid.VLE.nc
+ -2      -1                  0       0                  6   256 # vleFluid.VLEAdditional.cp_l
+ -2      -1                  0       0                  6   256 # vleFluid.VLEAdditional.cp_v
+ -2      -1                  0       0                  6   256 # vleFluid.VLEAdditional.beta_l
+ -2      -1                  0       0                  6   256 # vleFluid.VLEAdditional.beta_v
+ -2      -1                  0       0                  6   256 # vleFluid.VLEAdditional.kappa_l
+ -2      -1                  0       0                  6   256 # vleFluid.VLEAdditional.kappa_v
+ -2      -1                  0       0                  6   256 # vleFluid.VLETransp.Pr_l
+ -2      -1                  0       0                  6   256 # vleFluid.VLETransp.Pr_v
+ -2      -1                  0       0                  6   256 # vleFluid.VLETransp.lambda_l
+ -2      -1                  0       0                  6   256 # vleFluid.VLETransp.lambda_v
+ -2      -1                 -1 1.0000000000000000E+100  6   256 # vleFluid.VLETransp.eta_l
+ -2      -1                 -1 1.0000000000000000E+100  6   256 # vleFluid.VLETransp.eta_v
+ -2      -1                  0       0                  6  1280 # vleFluid.invalidValue
+ -2       5                  0       0                  6  1282 # vleFluid.computeFlags
+ -2       1                  0       0                  6   769 # vleFluid1.vleFluidType.fixedMixingRatio
+ -2       1                  1 1.0000000000000000E+100  6   770 # vleFluid1.vleFluidType.nc_propertyCalculation
+ -2       1                  0       0                  6   770 # vleFluid1.vleFluidType.nc
+ -2       1                  0       0                  6   768 # vleFluid1.vleFluidType.mixingRatio_propertyCalculation[1]
+ -2       1                  0       0                  6   768 # vleFluid1.vleFluidType.defaultMixingRatio[1]
+ -2       1                  0       0                  6   770 # vleFluid1.vleFluidType.ID
+ -2       2                  0       0                  6   258 # vleFluid1.vleFluidPointer.id
+ -2       0                  0       0                  6   257 # vleFluid1.stateSelectPreferForInputs
+ -2       1                  0       0                  6   257 # vleFluid1.computeTransportProperties
+ -2       0                  0       0                  1   281 # vleFluid1.interpolateTransportProperties
+ -2       1                  0       0                  1   281 # vleFluid1.computeSurfaceTension
+ -2       0                  0       0                  6   257 # vleFluid1.computeVLEAdditionalProperties
+ -2       0                  0       0                  6   257 # vleFluid1.computeVLETransportProperties
+ -2       0                  0       0                  6   257 # vleFluid1.deactivateTwoPhaseRegion
+ -2  1.7334612984865328E+03  0       0                  6   256 # vleFluid1.s
+ -2  1.0203200000000000E-01  0 1.0000000000000000E+100  6   256 # vleFluid1.M
+ -2       1                  0       1                  6   256 # vleFluid1.q
+ -2  9.6375662277398862E+02  0       0                  6   256 # vleFluid1.cp
+ -2  8.0523375706620982E+02  0       0                  6   256 # vleFluid1.cv
+ -2  5.4483419159969621E-03  0       0                  6   256 # vleFluid1.beta
+ -2  2.3101533002167019E-06  0       0                  6   256 # vleFluid1.kappa
+ -2  1.4769659868288377E+02  0       0                  6   256 # vleFluid1.w
+ -2 -1.3426431263577747E-04  0       0                  6   256 # vleFluid1.drhodh_pxi
+ -2  5.1494754484587151E-05  0       0                  6   256 # vleFluid1.drhodp_hxi
+ -2  1.1968656484116382E+00  0       0                  6   256 # vleFluid1.gamma
+ -2  1.0203200000000000E-01  0 1.0000000000000000E+100  6   256 # vleFluid1.M_i[1]
+ -2  5.1189995169600002E+02  0 1.0000000000000000E+100  6   256 # vleFluid1.crit.d
+ -2  3.8963862522948958E+05  0       0                  6   256 # vleFluid1.crit.h
+ -2  4.0591060710186088E+06  0 1.0000000000000000E+100  6   256 # vleFluid1.crit.p
+ -2  1.5620983223443106E+03  0       0                  6   256 # vleFluid1.crit.s
+ -2  3.7420999999999998E+02  0 1.0000000000000000E+100  6   256 # vleFluid1.crit.T
+ -2  8.3701886465924402E-01  0       0                  6   256 # vleFluid1.transp.Pr
+ -2  1.3238650535354647E-02  0       0                  6   256 # vleFluid1.transp.lambda
+ -2  1.1497716310190954E-05 -1 1.0000000000000000E+100  6   256 # vleFluid1.transp.eta
+ -2  8.7114825353653939E-03  0       0                  6   256 # vleFluid1.transp.sigma
+ -2  1.2258830964474971E+03  0 1.0000000000000000E+100  6   256 # vleFluid1.VLE.d_l
+ -2  2.7651952045702309E+01  0 1.0000000000000000E+100  6   256 # vleFluid1.VLE.d_v
+ -2  2.2725680369419980E+05  0       0                  6   256 # vleFluid1.VLE.h_l
+ -2  4.0966904362221522E+05  0       0                  6   256 # vleFluid1.VLE.h_v
+ -2  5.6905962099237263E+05  0 1.0000000000000000E+100  6   256 # vleFluid1.VLE.p_l
+ -2  5.6905962099237263E+05  0 1.0000000000000000E+100  6   256 # vleFluid1.VLE.p_v
+ -2  1.0955285632478967E+03  0       0                  6   256 # vleFluid1.VLE.s_l
+ -2  1.7180959350158676E+03  0       0                  6   256 # vleFluid1.VLE.s_v
+ -2     293                  0 1.0000000000000000E+100  6   256 # vleFluid1.VLE.T_l
+ -2     293                  0 1.0000000000000000E+100  6   256 # vleFluid1.VLE.T_v
+ -2       1                  0       0                  6   258 # vleFluid1.VLE.nc
+ -2      -1                  0       0                  6   256 # vleFluid1.VLEAdditional.cp_l
+ -2      -1                  0       0                  6   256 # vleFluid1.VLEAdditional.cp_v
+ -2      -1                  0       0                  6   256 # vleFluid1.VLEAdditional.beta_l
+ -2      -1                  0       0                  6   256 # vleFluid1.VLEAdditional.beta_v
+ -2      -1                  0       0                  6   256 # vleFluid1.VLEAdditional.kappa_l
+ -2      -1                  0       0                  6   256 # vleFluid1.VLEAdditional.kappa_v
+ -2      -1                  0       0                  6   256 # vleFluid1.VLETransp.Pr_l
+ -2      -1                  0       0                  6   256 # vleFluid1.VLETransp.Pr_v
+ -2      -1                  0       0                  6   256 # vleFluid1.VLETransp.lambda_l
+ -2      -1                  0       0                  6   256 # vleFluid1.VLETransp.lambda_v
+ -2      -1                 -1 1.0000000000000000E+100  6   256 # vleFluid1.VLETransp.eta_l
+ -2      -1                 -1 1.0000000000000000E+100  6   256 # vleFluid1.VLETransp.eta_v
+ -2      -1                  0       0                  6  1280 # vleFluid1.invalidValue
+ -2       5                  0       0                  6  1282 # vleFluid1.computeFlags
+ -2  1.3830000000000000E+00  0       0                  4   256 # CPUtime
+ -2       3                  0       0                  4   256 # EventCounter
+
+# initialDescription
+char initialDescription(293,102)
+Number of VLE fluid types [:#(type=Integer)]
+Treat medium as pseudo pure in Modelica if it is a mixture [:#(type=Boolean)]
+Number of components for fluid property calculations [:#(type=Integer)]
+Number of components in Modelica models [:#(type=Integer)]
+Mixing ratio for fluid property calculation (={1} for pure components)
+Default composition for models in Modelica (={1} for pure components)
+ID is used to map the selected VLEFluid to the sim.cumulatedVLEFluidMass array item [:#(type=Integer)]
+Treat medium as pseudo pure in Modelica if it is a mixture [:#(type=Boolean)]
+Number of components for fluid property calculations [:#(type=Integer)]
+Number of components in Modelica models [:#(type=Integer)]
+Mixing ratio for fluid property calculation (={1} for pure components)
+Default composition for models in Modelica (={1} for pure components)
+ID is used to map the selected VLEFluid to the sim.cumulatedVLEFluidMass array item [:#(type=Integer)]
+Treat medium as pseudo pure in Modelica if it is a mixture [:#(type=Boolean)]
+Number of components for fluid property calculations [:#(type=Integer)]
+Number of components in Modelica models [:#(type=Integer)]
+Mixing ratio for fluid property calculation (={1} for pure components)
+Default composition for models in Modelica (={1} for pure components)
+ID is used to map the selected VLEFluid to the sim.cumulatedVLEFluidMass array item [:#(type=Integer)]
+Number of gas types [:#(type=Integer)]
+Treat medium as pseudo pure in Modelica if it is a mixture [:#(type=Boolean)]
+Number of components for fluid property calculations [:#(type=Integer)]
+Number of components in Modelica models [:#(type=Integer)]
+Mixing ratio for fluid property calculation (={1} for pure components)
+Mixing ratio for fluid property calculation (={1} for pure components)
+Default composition for models in Modelica (={1} for pure components)
+Default composition for models in Modelica (={1} for pure components)
+Default mass fractions
+Index of condensing component (=0, if no condensation is desired) [:#(type=Integer)]
+ID is used to map the selected Gas to the sim.cumulatedGasMass array item [:#(type=Integer)]
+Treat medium as pseudo pure in Modelica if it is a mixture [:#(type=Boolean)]
+Number of components for fluid property calculations [:#(type=Integer)]
+Number of components in Modelica models [:#(type=Integer)]
+Mixing ratio for fluid property calculation (={1} for pure components)
+Mixing ratio for fluid property calculation (={1} for pure components)
+Default composition for models in Modelica (={1} for pure components)
+Default composition for models in Modelica (={1} for pure components)
+Default mass fractions
+Index of condensing component (=0, if no condensation is desired) [:#(type=Integer)]
+ID is used to map the selected Gas to the sim.cumulatedGasMass array item [:#(type=Integer)]
+Treat medium as pseudo pure in Modelica if it is a mixture [:#(type=Boolean)]
+Number of components for fluid property calculations [:#(type=Integer)]
+Number of components in Modelica models [:#(type=Integer)]
+Mixing ratio for fluid property calculation (={1} for pure components)
+Mixing ratio for fluid property calculation (={1} for pure components)
+Default composition for models in Modelica (={1} for pure components)
+Default composition for models in Modelica (={1} for pure components)
+Default mass fractions
+Index of condensing component (=0, if no condensation is desired) [:#(type=Integer)]
+ID is used to map the selected Gas to the sim.cumulatedGasMass array item [:#(type=Integer)]
+Number of liquids [:#(type=Integer)]
+Treat medium as pseudo pure in Modelica if it is a mixture [:#(type=Boolean)]
+Number of components for fluid property calculations [:#(type=Integer)]
+Number of components in Modelica models [:#(type=Integer)]
+Mixing ratio for fluid property calculation (={1} for pure components)
+Default composition for models in Modelica (={1} for pure components)
+ID is used to map the selected Liquid to the sim.cumulatedLiquidMass array item [:#(type=Integer)]
+Treat medium as pseudo pure in Modelica if it is a mixture [:#(type=Boolean)]
+Number of components for fluid property calculations [:#(type=Integer)]
+Number of components in Modelica models [:#(type=Integer)]
+Mixing ratio for fluid property calculation (={1} for pure components)
+Default composition for models in Modelica (={1} for pure components)
+ID is used to map the selected Liquid to the sim.cumulatedLiquidMass array item [:#(type=Integer)]
+Treat medium as pseudo pure in Modelica if it is a mixture [:#(type=Boolean)]
+Number of components for fluid property calculations [:#(type=Integer)]
+Number of components in Modelica models [:#(type=Integer)]
+Mixing ratio for fluid property calculation (={1} for pure components)
+Default composition for models in Modelica (={1} for pure components)
+ID is used to map the selected Liquid to the sim.cumulatedLiquidMass array item [:#(type=Integer)]
+Maximum number of pressure states [:#(type=Integer)]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Accumulated fluid mass [kg]
+Accumulated fluid volume [m3]
+Accumulated fluid mass [kg]
+Accumulated fluid volume [m3]
+Accumulated fluid mass [kg]
+Accumulated fluid volume [m3]
+Accumulated liquid mass [kg]
+Accumulated liquid volume [m3]
+Accumulated liquid mass [kg]
+Accumulated liquid volume [m3]
+Accumulated liquid mass [kg]
+Accumulated liquid volume [m3]
+Cumulated vleFluid mass
+Cumulated vleFluid mass
+Cumulated vleFluid mass
+Cumulated vleFluid volume
+Cumulated vleFluid volume
+Cumulated vleFluid volume
+Cumulated vleFluid mass [kg]
+Cumulated vleFluid mass [kg]
+Cumulated vleFluid mass [kg]
+Cumulated vleFluid volume [m3]
+Cumulated vleFluid volume [m3]
+Cumulated vleFluid volume [m3]
+[:#(type=Integer)]
+[:#(type=Integer)]
+Cumulated liquid mass [kg]
+Cumulated liquid mass [kg]
+Cumulated liquid mass [kg]
+Cumulated liquid volume [m3]
+Cumulated liquid volume [m3]
+Cumulated liquid volume [m3]
+Activate limiter for the enthalpy [:#(type=Boolean)]
+[:#(type=Boolean)]
+If true: all gas components generate events at flow reversal [:#(type=Boolean)]
+If true: all liquid components generate events at flow reversal [:#(type=Boolean)]
+If true: all VLEFluid components generate events at flow reversal [:#(type=Boolean)]
+Cylinder bore diameter [m]
+Clearance volume [m3]
+Displacement volume [m3]
+Piston diameter [m]
+Length of the shell [m]
+Valve diameter [m]
+Angular velocity [rad/s]
+Compression ratio
+Initial values of density in Kg/m3 [kg/m3|g/cm3]
+der(Initial values of density in Kg/m3) [Pa.m-2.s]
+Initial value of temperature in in K [K|degC]
+der(Initial value of temperature in in K) [K/s]
+Pressure at specified temperature and density conditions [Pa|kPa]
+Enthalpy at specified temperature and density conditions [J/kg]
+Specific Internal enerygy [J/kg]
+Dynamic Viscosity [Pa.s]
+Prandtl number
+Suction Pressure [Pa|bar]
+Suction temperature [K|degC]
+Suction density [kg/m3|g/cm3]
+suction flow specific Enthalpy [J/kg]
+[Pa|bar]
+Specific heat capacity ratio [1]
+Gas constant
+
+
+[Pa.s]
+Shell thermal conductivity [W/(m.K)]
+Air density [kg/m3|g/cm3]
+Wind velocity [m/s]
+Outside air Prandtl number
+[kg/s]
+[kg/s]
+[kg/s]
+Crank angle in rad [rad|Deg]
+der(Crank angle in rad) [rad/s]
+Volume at each time step inside the cylinder [m3|cm3]
+der(Volume at each time step inside the cylinder) [m3/s]
+[W]
+[K|degC]
+[K|degC]
+
+[s]
+[s]
+Treat medium as pseudo pure in Modelica if it is a mixture [:#(type=Boolean)]
+Number of components for fluid property calculations [:#(type=Integer)]
+Number of components in Modelica models [:#(type=Integer)]
+Mixing ratio for fluid property calculation (={1} for pure components)
+Default composition for models in Modelica (={1} for pure components)
+ID is used to map the selected VLEFluid to the sim.cumulatedVLEFluidMass array item [:#(type=Integer)]
+[:#(type=Integer)]
+=true, StateSelect.prefer is set for input variables [:#(type=Boolean)]
+=true, if transport properties are calculated [:#(type=Boolean)]
+Interpolate transport properties in vapor dome [:#(type=Boolean)]
+[:#(type=Boolean)]
+Compute detailed vapor liquid equilibrium properties [:#(type=Boolean)]
+Compute detailed vapor liquid equilibrium transport properties [:#(type=Boolean)]
+Deactivate calculation of two phase region [:#(type=Boolean)]
+Specific entropy [J/(kg.K)]
+Average molar mass [kg/mol]
+Steam mass fraction (quality) [1]
+Specific isobaric heat capacity cp [J/(kg.K)]
+Specific isochoric heat capacity cv [J/(kg.K)]
+Isobaric thermal expansion coefficient [1/K]
+Isothermal compressibility [1/Pa]
+Speed of sound [m/s]
+1st derivative of density wrt specific enthalpy at constant pressure and mass fraction [kg.s2/m5]
+1st derivative of density wrt pressure at specific enthalpy and mass fraction [s2/m2]
+Heat capacity ratio aka isentropic expansion factor
+Molar mass of component i [kg/mol]
+Critical density [kg/m3|g/cm3]
+Critical specific enthalpy [J/kg]
+Critical pressure [Pa|bar]
+Critical specific entropy [J/(kg.K)]
+Critical temperature [K|degC]
+Prandtl number [1]
+Thermal conductivity [W/(m.K)]
+Dynamic viscosity [Pa.s]
+Surface tension [N/m]
+Density of liquid phase [kg/m3|g/cm3]
+Density of vapour phase [kg/m3|g/cm3]
+Specific enthalpy of liquid phase [J/kg]
+Specific enthalpy of vapour phase [J/kg]
+Pressure of liquid phase [Pa|bar]
+Pressure of vapour phase [Pa|bar]
+Specific entropy of liquid phase [J/(kg.K)]
+Specific entropy of vapour phase [J/(kg.K)]
+Temperature of liquid phase [K|degC]
+Temperature of vapour phase [K|degC]
+[:#(type=Integer)]
+Specific heat capacity cp of liquid phase [J/(kg.K)]
+Specific heat capacity cp of vapour phase [J/(kg.K)]
+Isobaric expansion coefficient of liquid phase [1/K]
+Isobaric expansion coefficient of vapour phase [1/K]
+Isothermal compressibility of liquid phase [1/Pa]
+Isothermal compressibility of vapour phase [1/Pa]
+Prandtl number of liquid phase [1]
+Prandtl number of vapour phase [1]
+Thermal conductivity of liquid phase [W/(m.K)]
+Thermal conductivity of vapour phase [W/(m.K)]
+Dynamic viscosity of liquid phase [Pa.s]
+Dynamic viscosity of vapour phase [Pa.s]
+
+[:#(type=Integer)]
+Treat medium as pseudo pure in Modelica if it is a mixture [:#(type=Boolean)]
+Number of components for fluid property calculations [:#(type=Integer)]
+Number of components in Modelica models [:#(type=Integer)]
+Mixing ratio for fluid property calculation (={1} for pure components)
+Default composition for models in Modelica (={1} for pure components)
+ID is used to map the selected VLEFluid to the sim.cumulatedVLEFluidMass array item [:#(type=Integer)]
+[:#(type=Integer)]
+=true, StateSelect.prefer is set for input variables [:#(type=Boolean)]
+=true, if transport properties are calculated [:#(type=Boolean)]
+Interpolate transport properties in vapor dome [:#(type=Boolean)]
+[:#(type=Boolean)]
+Compute detailed vapor liquid equilibrium properties [:#(type=Boolean)]
+Compute detailed vapor liquid equilibrium transport properties [:#(type=Boolean)]
+Deactivate calculation of two phase region [:#(type=Boolean)]
+Specific entropy [J/(kg.K)]
+Average molar mass [kg/mol]
+Steam mass fraction (quality) [1]
+Specific isobaric heat capacity cp [J/(kg.K)]
+Specific isochoric heat capacity cv [J/(kg.K)]
+Isobaric thermal expansion coefficient [1/K]
+Isothermal compressibility [1/Pa]
+Speed of sound [m/s]
+1st derivative of density wrt specific enthalpy at constant pressure and mass fraction [kg.s2/m5]
+1st derivative of density wrt pressure at specific enthalpy and mass fraction [s2/m2]
+Heat capacity ratio aka isentropic expansion factor
+Molar mass of component i [kg/mol]
+Critical density [kg/m3|g/cm3]
+Critical specific enthalpy [J/kg]
+Critical pressure [Pa|bar]
+Critical specific entropy [J/(kg.K)]
+Critical temperature [K|degC]
+Prandtl number [1]
+Thermal conductivity [W/(m.K)]
+Dynamic viscosity [Pa.s]
+Surface tension [N/m]
+Density of liquid phase [kg/m3|g/cm3]
+Density of vapour phase [kg/m3|g/cm3]
+Specific enthalpy of liquid phase [J/kg]
+Specific enthalpy of vapour phase [J/kg]
+Pressure of liquid phase [Pa|bar]
+Pressure of vapour phase [Pa|bar]
+Specific entropy of liquid phase [J/(kg.K)]
+Specific entropy of vapour phase [J/(kg.K)]
+Temperature of liquid phase [K|degC]
+Temperature of vapour phase [K|degC]
+[:#(type=Integer)]
+Specific heat capacity cp of liquid phase [J/(kg.K)]
+Specific heat capacity cp of vapour phase [J/(kg.K)]
+Isobaric expansion coefficient of liquid phase [1/K]
+Isobaric expansion coefficient of vapour phase [1/K]
+Isothermal compressibility of liquid phase [1/Pa]
+Isothermal compressibility of vapour phase [1/Pa]
+Prandtl number of liquid phase [1]
+Prandtl number of vapour phase [1]
+Thermal conductivity of liquid phase [W/(m.K)]
+Thermal conductivity of vapour phase [W/(m.K)]
+Dynamic viscosity of liquid phase [Pa.s]
+Dynamic viscosity of vapour phase [Pa.s]
+
+[:#(type=Integer)]
+[s]
+
+
