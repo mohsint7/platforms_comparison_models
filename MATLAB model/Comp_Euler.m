@@ -3,32 +3,28 @@ clc
 Folder = cd;
 addpath('functions');
 addpath('C:\Program Files (x86)\REFPROP');
-%% number of steps in one cycle
+%% Model inputs
 
-n=30000;            %number of steps
-tol_inner=1e-4;    % convergence tolerancr T, rho, T_w etc
+n=7000;            %Number of steps
+tol_inner=1e-4;    %Convergence tolerancr T, rho, T_w etc
 valve_dynamics = input('Turn on valve dynamics? 1 for on 0 for off: ');  %Zero for off, One for on
 heat_transfer = input('Turn on heat transfer? 1 for on 0 for off: ');    %Zero for off, One for on
 %% Comp parameters
 
-Vdead=8e-8;                                % Clearance volume of the compressor
+Vdead=8e-8;                                  %Clearance volume of the compressor
 V_disp=8e-6;                                 %Displacement volume of the compressor
-d=0.0059;                                    %valve diameter in m%
-    
-theta_01=linspace(0,360,n);                  %crank angle%
-rad=linspace(0,2*pi,n);                      %crank angle in radian
-
-N=3600;                                      %compressor RPM%
-B=2;                                         %cylinder bore diameter in cm%
-
-w=2*pi*N/60;                                 %angular speed
-PR=2.5;                                      % compressor pressure ratio
+d=0.0059;                                    %Valve diameter in m%   
+theta_01=linspace(0,360,n);                  %Crank angle%
+rad=linspace(0,2*pi,n);                      %Crank angle in radian
+N=3600;                                      %Compressor RPM%
+B=2;                                         %Cylinder bore diameter in cm%
+w=2*pi*N/60;                                 %Angular speed
+PR=2.5;                                      %Compressor pressure ratio
 %% Input fluid properties
 
-
-rho0=23.75;                                         %density,[kg/m3], R134a%
-T0=293;                                             %eveaporation temperature or compressure inlet temperature[K]%
-R=81.49;                                            %specific gas constant[J/kg.k]
+rho0=23.75;                                  %Density,[kg/m3], R134a%
+T0=293;                                      %Eveaporation temperature or compressure inlet temperature[K]%
+R=81.49;                                     %Specific gas constant[J/kg.k]
 
 
 h_in = refpropm('H','T',T0,'D',rho0,'R134a');               %enthalpy at inlet [J/kg]

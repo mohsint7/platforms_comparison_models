@@ -64,20 +64,24 @@ class PURecip(PDSimCore):
             # valve is closed - no flow
             return 0.0
         else:
-            #try:
                 
             if not hasattr(self,'valve_model') or self.valve_model  == '1DOF':
             
                 FlowPath.A=self.suction_valve.A()
-                mdot=flow_models.IsentropicNozzle(FlowPath.A,FlowPath.State_up,FlowPath.State_down)
+                mdot=flow_models.IsentropicNozzle(FlowPath.A,
+                                                  FlowPath.State_up,
+                                                  FlowPath.State_down)
             
             elif self.valve_model  == 'VibrationModeModel':
 
-                #mdot = self.suction_valve.mdot
                 A1=self.suction_valve.A_1()
-                mdot1=flow_models.IsentropicNozzle(A1,FlowPath.State_up,FlowPath.State_down)
+                mdot1=flow_models.IsentropicNozzle(A1,
+                                                   FlowPath.State_up,
+                                                   FlowPath.State_down)
                 A2=self.suction_valve.A_2()
-                mdot2=flow_models.IsentropicNozzle(A2,FlowPath.State_up,FlowPath.State_down)   
+                mdot2=flow_models.IsentropicNozzle(A2,
+                                                   FlowPath.State_up,
+                                                   FlowPath.State_down)   
                 mdot = mdot1+mdot2         
             return mdot
         
@@ -158,34 +162,26 @@ class PURecip(PDSimCore):
 ##########################################
 ###    Part 3. Execution of PURecip    ###
 ##########################################
-        
 def Compressor(**kwargs):
 
-    recip=PURecip()                     #Instantiate the model
-    recip.Vdead = 8e-8                #Dead volume [m3]
-    recip.Vdisp = 8e-6                  #Displacement/rev [m3]
-    recip.omega = 377                  #Frequency, rad/sec (60Hz)
-
-    recip.d_discharge=0.0059;           #discharge port diameter [m]
-    recip.d_suction=recip.d_discharge;  #suction diameter [m]
+    recip=PURecip()                             #Instantiate the model
+    recip.Vdead = 8e-8                          #Dead volume [m3]
+    recip.Vdisp = 8e-6                          #Displacement/rev [m3]
+    recip.omega = 377                           #Frequency, rad/sec (60Hz)
+    recip.d_discharge=0.0059;                   #Discharge port diameter [m]
+    recip.d_suction=recip.d_discharge;          #Suction diameter [m]
     recip.A_discharge=pi*recip.d_discharge**2/4
     recip.A_suction=pi*recip.d_suction**2/4
-    
-    recip.EulerN= 7000
-     
     recip.RK45_eps=1e-8
-        
-    #These are parameters needed for the ambient heat transfer model
-    recip.h_shell = 0.010               #[kW/m2/K]
-    recip.A_shell = pi*10*2*(0.0254**2) #[m2]
-    recip.Tamb = 293                   #[K] 
+    recip.h_shell = 0.010                       #[kW/m2/K]
+    recip.A_shell = pi*10*2*(0.0254**2)         #[m2]
+    recip.Tamb = 293                            #[K] 
     recip.plot_names='recip_plot_buttons'
-    
-    #Parameters for the mechanical losses model (simplified)
-    recip.Wdot_parasitic = 0         #Parasitic losses [kW]
-    
+    recip.Wdot_parasitic = 0                    #Parasitic losses [kW]
     Ref='R134a'
     inletState=State.State(Ref,dict(T=293.15,D=23.75))
+    
+    
     outletState=State.State(Ref,{'T':400,'P':inletState.p*2.5})
     mdot_guess = inletState.rho*recip.Vdisp*recip.omega/(2*pi)
     
@@ -207,6 +203,7 @@ def Compressor(**kwargs):
     
     #Add the flow paths that link flow nodes together
     recip.add_flow(FlowPath(key1='inlet.2',key2='A',MdotFcn=recip.Suction))
+    
     recip.add_flow(FlowPath(key1='outlet.1',key2='A',MdotFcn=recip.Discharge))
     
     
@@ -294,15 +291,17 @@ plt.show()
 
 ## exporting data to excel files
 # #
-# df1= pd.DataFrame(recip.V.T,recip.p.T)
+df1= pd.DataFrame(recip.V.T,recip.p.T)
 df2= pd.DataFrame(recip.t.T,recip.rho.T)
 df3= pd.DataFrame(recip.T.T,recip.m.T)
-# df4=pd.DataFrame(recip.FlowsProcessed.summed_mdot['outlet.1'],recip.FlowsProcessed.summed_mdot['inlet.2'])
-# df5=pd.DataFrame(recip.h.T)
+df4=pd.DataFrame(recip.FlowsProcessed.summed_mdot['outlet.1'],recip.FlowsProcessed.summed_mdot['inlet.2'])
+df5=pd.DataFrame(recip.h.T)
+df6=pd.DataFrame(recip.xValves[0,:],recip.xValves[2,:])
 # # # #
-# # #writer = pd.ExcelWriter('D:\Phd\compressor_model_work\compressor_model_work\Python_codes_rec\test1.xlsx', engine='xlsxwriter')
-# df1.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work\model/test1.xlsx", sheet_name='Sheet1',startcol=3)
+#writer = pd.ExcelWriter('D:\Phd\compressor_model_work\compressor_model_work\Python_codes_rec\test1.xlsx', engine='xlsxwriter')
+df1.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work/test1.xlsx", sheet_name='Sheet1',startcol=3)
 df2.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work/test2.xlsx", sheet_name='Sheet1',startcol=3)
 df3.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work/test3.xlsx", sheet_name='Sheet1',startcol=3)
-# df4.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work\model/test4.xlsx", sheet_name='Sheet1',startcol=3)
-# df5.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work\model/test5.xlsx", sheet_name='Sheet1',startcol=3)
+df4.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work/test4.xlsx", sheet_name='Sheet1',startcol=3)
+df5.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work/test5.xlsx", sheet_name='Sheet1',startcol=3)
+df6.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work/test6.xlsx", sheet_name='Sheet1',startcol=3)

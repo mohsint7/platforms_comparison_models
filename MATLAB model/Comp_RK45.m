@@ -6,8 +6,8 @@ addpath('C:\Program Files (x86)\REFPROP');
 format long
 tic
 %% number of steps in one cycle
-solver_tol=1e-8;             % solver tolerance
-dtheta0=1e-7;                %initial step size to start the solver solver
+solver_tol=1e-7;             % solver tolerance
+dtheta0=1e-4;                %initial step size to start the solver solver
 valve_dynamics = input('Turn on valve dynamics? 1 for on 0 for off: ');  %Zero for off, One for on
 heat_transfer = input('Turn on heat transfer? 1 for on 0 for off: ');    %Zero for off, One for on
 
@@ -98,7 +98,7 @@ rho(1)=rho0;
 dtheta1(1)=dtheta0;
 dtheta(1)=dtheta0;
 
-while error>1e-4
+while error>1e-5
 i=1;
 if f>1
     % resseting the vectors at after each iteration
@@ -231,6 +231,9 @@ P(end)=[];
 Qdot(end)=[];
 dtheta(end)=[];
 dV_dtheta(end)=[];
+dtheta1(end)=[];
+x_valve_suc(end)=[];
+x_valve_dis(end)=[];
 
 % Compressor performance parameters calculations
 dtime=dtheta/w;
@@ -303,8 +306,8 @@ plot(rad,Qdot);title('Heat Transfer');
 % portion of the code
 
 
-Tab=table(rad',P',V',T',rho',mdot');
-col_header={'theta','Pressure','Volume','Temperature','Density','Mass'};
+Tab=table(rad',P',V',T',rho',mdot',dtheta',x_valve_suc',x_valve_dis');
+col_header={'theta','Pressure','Volume','Temperature','Density','Mass','dtheta','suction_lift','discharge_lift'};
 output_matrix=[{' '} col_header ];
 filename = 'C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work\results\PV_mat3.xlsx';
 

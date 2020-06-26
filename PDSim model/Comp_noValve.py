@@ -226,15 +226,15 @@ if __name__=='__main__':
 
 ## exporting data to excel files
 # #
-# df1= pd.DataFrame(recip.V.T,recip.p.T)
-# df2= pd.DataFrame(recip.t.T,recip.rho.T)
-# df3= pd.DataFrame(recip.T.T,recip.m.T)
-# df4=pd.DataFrame(recip.FlowsProcessed.summed_mdot['outlet.1'],recip.FlowsProcessed.summed_mdot['inlet.2'])
-# df5=pd.DataFrame(recip.h.T)
-# # # #
-# # #writer = pd.ExcelWriter('D:\Phd\compressor_model_work\compressor_model_work\Python_codes_rec\test1.xlsx', engine='xlsxwriter')
-# df1.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work\model/test1.xlsx", sheet_name='Sheet1',startcol=3)
-# df2.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work\model/test2.xlsx", sheet_name='Sheet1',startcol=3)
-# df3.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work\model/test3.xlsx", sheet_name='Sheet1',startcol=3)
-# df4.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work\model/test4.xlsx", sheet_name='Sheet1',startcol=3)
-# df5.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work\model/test5.xlsx", sheet_name='Sheet1',startcol=3)
+df1= pd.DataFrame(recip.V.T,recip.p.T)
+df2= pd.DataFrame(recip.t.T,recip.rho.T)
+df3= pd.DataFrame(recip.T.T,recip.m.T)
+df4=pd.DataFrame(recip.FlowsProcessed.summed_mdot['outlet.1'],recip.FlowsProcessed.summed_mdot['inlet.2'])
+df5=pd.DataFrame(recip.h.T)
+# # #
+# #writer = pd.ExcelWriter('D:\Phd\compressor_model_work\compressor_model_work\Python_codes_rec\test1.xlsx', engine='xlsxwriter')
+df1.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work/test1.xlsx", sheet_name='Sheet1',startcol=3)
+df2.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work/test2.xlsx", sheet_name='Sheet1',startcol=3)
+df3.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work/test3.xlsx", sheet_name='Sheet1',startcol=3)
+df4.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work/test4.xlsx", sheet_name='Sheet1',startcol=3)
+df5.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work/test5.xlsx", sheet_name='Sheet1',startcol=3)

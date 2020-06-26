@@ -9,10 +9,10 @@ Modelica experiment file
 double experiment(7,1)
        0                   # StartTime    Time at which integration starts
                            #              (and linearization and trimming time)
-  1.7299999999999999E-02   # StopTime     Time at which integration stops
+  3.4000000000000002E-02   # StopTime     Time at which integration stops
        0                   # Increment    Communication step size, if > 0
-    7000                   # nInterval    Number of communication intervals, if > 0
-  1.0000000000000000E-04   # Tolerance    Relative precision of signals for
+    3000                   # nInterval    Number of communication intervals, if > 0
+  9.9999999999999995E-08   # Tolerance    Relative precision of signals for
                            #              simulation, linearization and trimming
        0                   # MaxFixedStep Maximum step size of fixed step size
                            #              integrators, if > 0.0
@@ -102,7 +102,7 @@ int settings(13,1)
 
 
 #    Names of initial variables
-char initialName(293,57)
+char initialName(290,57)
 sim.nVLEFluids
 sim.vleFluidType1.fixedMixingRatio
 sim.vleFluidType1.nc_propertyCalculation
@@ -271,9 +271,6 @@ der(V)
 Qdot
 Tamb
 T_w
-Wdot_PV
-T_initial
-T_final
 vleFluid.vleFluidType.fixedMixingRatio
 vleFluid.vleFluidType.nc_propertyCalculation
 vleFluid.vleFluidType.nc
@@ -397,7 +394,7 @@ vleFluid1.computeFlags
 CPUtime
 EventCounter
 
-double initialValue(293,6)
+double initialValue(290,6)
   0       3                  0 1.0000000000000000E+100  6   770   # sim.nVLEFluids
   0       1                  0       0                  6   769   # sim.vleFluidType1.fixedMixingRatio
   0       1                  1 1.0000000000000000E+100  6   770   # sim.vleFluidType1.nc_propertyCalculation
@@ -566,9 +563,6 @@ double initialValue(293,6)
   0       0                  0       0                  6   256   # Qdot
   0     295                  0 1.0000000000000000E+100  6   256   # Tamb
   0  2.8814999999999998E+02  0 1.0000000000000000E+100  6   256   # T_w
-  0       0                  0       0                  6   256   # Wdot_PV
-  0       0                  0       0                  6   256   # T_initial
-  0       0                  0       0                  6   256   # T_final
   0       1                  0       0                  6   769   # vleFluid.vleFluidType.fixedMixingRatio
   0       1                  1 1.0000000000000000E+100  6   770   # vleFluid.vleFluidType.nc_propertyCalculation
   0       1                  0       0                  6   770   # vleFluid.vleFluidType.nc
@@ -578,7 +572,7 @@ double initialValue(293,6)
   0       0                  0       0                  6   258   # vleFluid.vleFluidPointer.id
   0       0                  0       0                  6   257   # vleFluid.stateSelectPreferForInputs
   0       1                  0       0                  6   257   # vleFluid.computeTransportProperties
- -1       0                  0       0                  1   281   # vleFluid.interpolateTransportProperties
+ -1       1                  0       0                  1   281   # vleFluid.interpolateTransportProperties
  -1       1                  0       0                  1   281   # vleFluid.computeSurfaceTension
   0       0                  0       0                  6   257   # vleFluid.computeVLEAdditionalProperties
   0       0                  0       0                  6   257   # vleFluid.computeVLETransportProperties
@@ -638,7 +632,7 @@ double initialValue(293,6)
   0       0                  0       0                  6   258   # vleFluid1.vleFluidPointer.id
   0       0                  0       0                  6   257   # vleFluid1.stateSelectPreferForInputs
   0       1                  0       0                  6   257   # vleFluid1.computeTransportProperties
- -1       0                  0       0                  1   281   # vleFluid1.interpolateTransportProperties
+ -1       1                  0       0                  1   281   # vleFluid1.interpolateTransportProperties
  -1       1                  0       0                  1   281   # vleFluid1.computeSurfaceTension
   0       0                  0       0                  6   257   # vleFluid1.computeVLEAdditionalProperties
   0       0                  0       0                  6   257   # vleFluid1.computeVLETransportProperties
@@ -741,7 +735,7 @@ double initialValue(293,6)
 #   nominal value (and maybe minimum and maximum values given in 
 #   column 3 and 4). If these values are zero, scale(i)=1 is used).
 #
-char initialDescription(293,102)
+char initialDescription(290,102)
 Number of VLE fluid types [:#(type=Integer)]
 Treat medium as pseudo pure in Modelica if it is a mixture [:#(type=Boolean)]
 Number of components for fluid property calculations [:#(type=Integer)]
@@ -869,13 +863,13 @@ Activate limiter for the enthalpy [:#(type=Boolean)]
 If true: all gas components generate events at flow reversal [:#(type=Boolean)]
 If true: all liquid components generate events at flow reversal [:#(type=Boolean)]
 If true: all VLEFluid components generate events at flow reversal [:#(type=Boolean)]
-Cylinder bore diameter [m]
-Clearance volume [m3]
-Displacement volume [m3]
-Piston diameter [m]
-Length of the shell [m]
-Valve diameter [m]
-Angular velocity [rad/s]
+cylinder bore diamter in m [m]
+clearance Volume in m3 [m3]
+[m3]
+[m]
+[m]
+Valve diameters [m]
+[rad/s]
 Compression ratio
 Initial values of density in Kg/m3 [kg/m3|g/cm3]
 der(Initial values of density in Kg/m3) [Pa.m-2.s]
@@ -885,21 +879,21 @@ Pressure at specified temperature and density conditions [Pa|kPa]
 Enthalpy at specified temperature and density conditions [J/kg]
 Specific Internal enerygy [J/kg]
 Dynamic Viscosity [Pa.s]
-Prandtl number
+Prandtle number
 Suction Pressure [Pa|bar]
-Suction temperature [K|degC]
-Suction density [kg/m3|g/cm3]
+Suction Tempersture [K|degC]
+Suction Density [kg/m3|g/cm3]
 suction flow specific Enthalpy [J/kg]
 [Pa|bar]
 Specific heat capacity ratio [1]
-Gas constant
+Gas Constant
 
 
 [Pa.s]
 Shell thermal conductivity [W/(m.K)]
 Air density [kg/m3|g/cm3]
 Wind velocity [m/s]
-Outside air Prandtl number
+Outside air Prandtle number
 [kg/s]
 [kg/s]
 [kg/s]
@@ -910,9 +904,6 @@ der(Volume at each time step inside the cylinder) [m3/s]
 [W]
 [K|degC]
 [K|degC]
-
-[s]
-[s]
 Treat medium as pseudo pure in Modelica if it is a mixture [:#(type=Boolean)]
 Number of components for fluid property calculations [:#(type=Integer)]
 Number of components in Modelica models [:#(type=Integer)]
