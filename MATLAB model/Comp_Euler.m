@@ -1,16 +1,30 @@
- clear all
+%Simplified recriprocating compressor model with a Euler Integrator. Part
+%of an electronic code annex for the work presented in Tanveer and Bradshaw
+%(2020) "Quantitative and Qualitative Evaluation of Various
+%Positive-Displacement Compressor Modeling Platforms" presented in Int. J.
+%of Ref.
+%
+%This model requires an installation of REFPROP and presumes it is
+%installed in the default directory. 
+%
+%Please reach out to mohsin.tanveer@okstate.edu or
+%craig.bradshaw@okstate.edu for questions about this model.
+
+
+%% Declarations and pre-processing
+clear all
 clc
 Folder = cd;
 addpath('functions');
 addpath('C:\Program Files (x86)\REFPROP');
-%% Model inputs
 
+%% Model Inputs - Numerics/Flags
 n=7000;            %Number of steps
 tol_inner=1e-4;    %Convergence tolerancr T, rho, T_w etc
 valve_dynamics = input('Turn on valve dynamics? 1 for on 0 for off: ');  %Zero for off, One for on
 heat_transfer = input('Turn on heat transfer? 1 for on 0 for off: ');    %Zero for off, One for on
-%% Comp parameters
 
+%% Model Inputs - Comp parameters
 Vdead=8e-8;                                  %Clearance volume of the compressor
 V_disp=8e-6;                                 %Displacement volume of the compressor
 d=0.0059;                                    %Valve diameter in m%   
@@ -20,20 +34,18 @@ N=3600;                                      %Compressor RPM%
 B=2;                                         %Cylinder bore diameter in cm%
 w=2*pi*N/60;                                 %Angular speed
 PR=2.5;                                      %Compressor pressure ratio
-%% Input fluid properties
 
+%% Model Inputs - Fluid properties
 rho0=23.75;                                  %Density,[kg/m3], R134a%
 T0=293;                                      %Eveaporation temperature or compressure inlet temperature[K]%
 R=81.49;                                     %Specific gas constant[J/kg.k]
 
-
+%Calculation of input property data
 h_in = refpropm('H','T',T0,'D',rho0,'R134a');               %enthalpy at inlet [J/kg]
 u=refpropm('U','T',T0,'D',rho0,'R134a');                    %instantanious internal energy [J/kg]
 P=refpropm('P','T',T0,'D',rho0,'R134a');                    %instantanious pressure [kPa]
-
-
 P_s=refpropm('P','T',T0,'D',rho0,'R134a');                  %suction pressure [Kpa]
-P_d=P_s*PR;                                                  %Dischrge side pressure [Kpa]
+P_d=P_s*PR;                                                 %Dischrge side pressure [Kpa]
 
 %% isentropic compression for isentropic eficiency calculation
 %Inlet Entropy
@@ -61,61 +73,58 @@ T_s_2 = T_isen(g);
 h_2_s = refpropm('H','T',T_s_2,'P',P_d,'R134a');
 h_2s=refpropm('H','P',P_d,'S',s_1,'R134a');
 %% Control Volume calculation
-
-
-
-
-dtheta=rad(2);
+dtheta=rad(2); %fixed step size
 
 %Property derivative for compression process equation
 [du_dT,du_drho]= prop_derivative(T0,rho0);
      
-
 %% Mass and Energy balance
- f=1 ;
-  error=1;
-  T_w(1) = 300;
-   T(1)=T0;
+
+%initializations
+f=1;
+error=1;
+T_w(1) = 300;
+T(1)=T0;
 rho(1)=rho0;
-%valve_dynamics(1)=0;
+%valve_dynamics(1)=0; %******Is this needed?
 x_valve_suc(1)=0;
 x_dot_valve_suc(1)=0;
 x_valve_dis(1)=0;
 x_dot_valve_dis(1)=0;
 
+%Residual tolerance loop
 while error>tol_inner
 
-if f>1
-    T_error=T;
-    rho_error=rho;
+    if f>1
+        T_error=T;
+        rho_error=rho;
+        T(1)=T(n+1);
+        rho(1)=rho(n+1);
+    end
+
+    %Inner loop, iterating on crank angle
+    for i=1:n
+        k(i)=refpropm('K','T',T(i),'D',rho(i),'R134a');
+        P(i)=refpropm('P','T',T(i),'D',rho(i),'R134a');               %kPa
+
+        % mass flow and valve model
+        [mdot_in(i),mdot_out(i),x_valve_suc(i+1),x_dot_valve_suc(i+1),x_valve_dis(i+1),x_dot_valve_dis(i+1) ] = valve1(P_s,P_d,P(i),rho0,rho(i),T0,T(i),R,k(1),valve_dynamics,x_valve_suc(i),x_dot_valve_suc(i),x_valve_dis(i),x_dot_valve_dis(i),dtheta,w);
+        [V(i),dV_dtheta(i)]=Volume(Vdead,V_disp,rad(i));
+        % heat transfer from cylinder wall to the refrigerant
+        [Qdot(i)]  = Ins_HT( T(i),rho(i),T_w(f),V(i),dV_dtheta(i),w,B,k(i),heat_transfer);       
+
+        % Euler method function for solution
+        x23=Euler(dtheta,Vdead,V_disp,rad(i),rho(i),T(i),du_drho,du_dT,w,h_in,mdot_in(i),mdot_out(i),Qdot(i));
+        rho(i+1)=x23(1);
+        T(i+1)=x23(2);
+        i=i+1;
+
+    end
     
-    T(1)=T(n+1);
-    
-    rho(1)=rho(n+1);
-end
-for i=1:n
-k(i)=refpropm('K','T',T(i),'D',rho(i),'R134a');
-P(i)=refpropm('P','T',T(i),'D',rho(i),'R134a');               %kPa
+    % total heat transfer for one cycle
+    Q_dot_cyl(f) = trapz(Qdot)*(dtheta/w);
 
-% mass flow and valve model
-[mdot_in(i),mdot_out(i),x_valve_suc(i+1),x_dot_valve_suc(i+1),x_valve_dis(i+1),x_dot_valve_dis(i+1) ] = valve1(P_s,P_d,P(i),rho0,rho(i),T0,T(i),R,k(1),valve_dynamics,x_valve_suc(i),x_dot_valve_suc(i),x_valve_dis(i),x_dot_valve_dis(i),dtheta,w);
-[V(i),dV_dtheta(i)]=Volume(Vdead,V_disp,rad(i));
-% heat transfer from cylinder wall to the refrigerant
-[Qdot(i)]  = Ins_HT( T(i),rho(i),T_w(f),V(i),dV_dtheta(i),w,B,k(i),heat_transfer);       
-
-% Euler method function for solution
-x23=Euler(dtheta,Vdead,V_disp,rad(i),rho(i),T(i),du_drho,du_dT,w,h_in,mdot_in(i),mdot_out(i),Qdot(i));
-rho(i+1)=x23(1);
-T(i+1)=x23(2);
-i=i+1;
-
-
-end
-% total heat transfer for one cycle
-Q_dot_cyl(f) = trapz(Qdot)*(dtheta/w);
-
-% Friction Model
-
+    % Friction Model
     mu_oil = 0.486;             %oil viscosity, Pa-sec
     delta_gap = 0.000050;       %Gap width, meters
     l_piston = 0.02;            %Length of piston, meters
@@ -123,38 +132,35 @@ Q_dot_cyl(f) = trapz(Qdot)*(dtheta/w);
     u_ave = 4.8;
     F_viscous = (mu_oil*A_length*u_ave)/delta_gap;
     W_dot_friction = (F_viscous*u_ave)/1000 
-    
-% Cylinder wall temperature calculation using heat transfer to ambient  
-if heat_transfer == 1
-[Q_dot_out(f),T_w(f+1)] = outer_HT(T_w(f));
+
+    % Cylinder wall temperature calculation using heat transfer to ambient  
+    if heat_transfer == 1
+        [Q_dot_out(f),T_w(f+1)] = outer_HT(T_w(f));
         res_HT(f) = abs(Q_dot_out(f) - Q_dot_cyl(f) - W_dot_friction);
-        
+
         if f>2
-
             T_w(f+1) = T_w(f) - res_HT(f)*((T_w(f) - T_w(f-1))/(res_HT(f) - res_HT(f-1)));
-
         end
-        
     else
-        
         T_w(f+1) = T_w(f);
         res_HT(f) = 0;
-end
+    end
 
-if f>1
-    % residuals calculations
-res_T(f)=1-abs(max(T./T_error));
-res_rho(f)=1-abs(max(rho./rho_error));
-disp(res_T(f))
-disp(res_rho(f))
-error=[abs(res_T(f)),abs(res_rho(f))];
-error=max(error);
-end
-f=f+1
+    if f>1
+        % residuals calculations
+        res_T(f)=1-abs(max(T./T_error));
+        res_rho(f)=1-abs(max(rho./rho_error));
+        disp(res_T(f))
+        disp(res_rho(f))
+        error=[abs(res_T(f)),abs(res_rho(f))];
+        error=max(error);
+    end
+    
+    f=f+1
 
-if f>30
-    error=0;
-end
+    if f>30
+        error=0;
+    end
 end
 
 %% Post processing --  Compressor performance parameters calculation
@@ -175,11 +181,9 @@ eta_vol=m_dot_tot_in/(rho0*V_disp*(w/(2*pi)))        % volumetric efficiency
 
 W_PV=trapz((((P*1000).*(dV_dtheta)).*dtheta)*(377/(2*pi))) % indicared power
 %% Plots
- T(n+1)=[];
+T(n+1)=[];
 rho(n+1)=[];
  
-
-
 subplot(3,3,1);
 plot(theta_01,T,'k');
 title (' temperature');
@@ -232,10 +236,11 @@ legend
 figure
 plot(theta_01,Qdot);title('Heat Transfer');
 
-%% exporting the results to escell file
+%% Exporting the results to Excel
 Tab=table(rad',P',V',T',rho',mdot');
 col_header={'theta','Pressure','Volume','Temperature','Density','Mass'};
 output_matrix=[{' '} col_header ];
+%% *******Update below to a generic filename
 filename = 'C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work\results\PV_mat1.xlsx';
 
 writetable(Tab,filename,'Sheet',1,'Range','B1');
