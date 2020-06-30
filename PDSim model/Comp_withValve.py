@@ -60,8 +60,8 @@ class PURecip(PDSimCore):
     
     def Suction(self,FlowPath,**kwargs):
         if FlowPath.key_up=='A':
-            # pressure in compressor higher than the inlet line
-            # valve is closed - no flow
+            #Pressure in compressor higher than the inlet line
+            #Valve is closed - no flow
             return 0.0
         else:
                 
@@ -87,8 +87,8 @@ class PURecip(PDSimCore):
         
     def Discharge(self,FlowPath,**kwargs):
         if FlowPath.key_down=='A':
-            # pressure in compressor lower than the discharge line
-            # valve is closed - no flow
+            # Pressure in compressor lower than the discharge line
+            # Valve is closed - no flow
             return 0.0
         else:
             #try:
@@ -280,28 +280,3 @@ if __name__=='__main__':
     #If this file is run directly, this code will be run
     recip=Compressor(solver_method = 'RK45')
     # run_all()
-import matplotlib.pyplot as plt
-plt.plot(recip.t,recip.xValves[0,:], lw = 1.5)
-plt.show()
-plt.figure()
-plt.plot(recip.t,recip.xValves[2,:], lw = 1.5)
-plt.show()
-
-
-
-## exporting data to excel files
-# #
-df1= pd.DataFrame(recip.V.T,recip.p.T)
-df2= pd.DataFrame(recip.t.T,recip.rho.T)
-df3= pd.DataFrame(recip.T.T,recip.m.T)
-df4=pd.DataFrame(recip.FlowsProcessed.summed_mdot['outlet.1'],recip.FlowsProcessed.summed_mdot['inlet.2'])
-df5=pd.DataFrame(recip.h.T)
-df6=pd.DataFrame(recip.xValves[0,:],recip.xValves[2,:])
-# # # #
-#writer = pd.ExcelWriter('D:\Phd\compressor_model_work\compressor_model_work\Python_codes_rec\test1.xlsx', engine='xlsxwriter')
-df1.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work/test1.xlsx", sheet_name='Sheet1',startcol=3)
-df2.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work/test2.xlsx", sheet_name='Sheet1',startcol=3)
-df3.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work/test3.xlsx", sheet_name='Sheet1',startcol=3)
-df4.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work/test4.xlsx", sheet_name='Sheet1',startcol=3)
-df5.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work/test5.xlsx", sheet_name='Sheet1',startcol=3)
-df6.to_excel(excel_writer = "C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work/test6.xlsx", sheet_name='Sheet1',startcol=3)

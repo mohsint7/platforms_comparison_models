@@ -518,8 +518,8 @@ package complete_model
     der(T)=((-rho*h*dVdt)-((u*V+rho*V*drhodT)*der(rho))+(Qdot+mdot_in*h_s-mdot_out*h))/(rho*V*dudT);
 
   annotation (experiment(
-          StopTime=0.02,
-          __Dymola_NumberOfIntervals=1000,
+          StopTime=0.034,
+          __Dymola_NumberOfIntervals=3000,
           Tolerance=1e-07,
           __Dymola_Algorithm="Cerk45"));
   end Rec_Compressor_heat;
@@ -661,9 +661,10 @@ algorithm
    T_final:=functions.toc();
 
 annotation (experiment(
-      StopTime=0.0173,
-      __Dymola_NumberOfIntervals=1000,
-      __Dymola_Algorithm="Cerk45"));
+          StopTime=0.0173,
+          __Dymola_NumberOfIntervals=1000,
+          Tolerance=1e-06,
+          __Dymola_Algorithm="Cerk45"));
 end Rec_Compressor_noheat;
 
 model Rec_Compressor_v

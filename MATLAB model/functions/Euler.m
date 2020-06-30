@@ -1,5 +1,7 @@
 function y=Euler(dtheta,V_dead,V_disp,theta,rho,T,du_drho,du_dT,w,hin,mdot_in,mdot_out,Qdot)
 
+% Simplified function based on Euler integration method
+
 dy=ind_prop_der(V_dead,V_disp,theta,rho,T,du_drho,du_dT,w,hin,mdot_in,mdot_out,Qdot);
 
 rho1=rho+dtheta*dy(1);

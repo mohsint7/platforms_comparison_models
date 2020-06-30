@@ -19,7 +19,7 @@ addpath('functions');
 addpath('C:\Program Files (x86)\REFPROP');
 
 %% Model Inputs - Numerics/Flags
-n=7000;            %Number of steps
+n=15000;            %Number of steps
 tol_inner=1e-4;    %Convergence tolerancr T, rho, T_w etc
 valve_dynamics = input('Turn on valve dynamics? 1 for on 0 for off: ');  %Zero for off, One for on
 heat_transfer = input('Turn on heat transfer? 1 for on 0 for off: ');    %Zero for off, One for on
@@ -41,8 +41,8 @@ T0=293;                                      %Eveaporation temperature or compre
 R=81.49;                                     %Specific gas constant[J/kg.k]
 
 %Calculation of input property data
-h_in = refpropm('H','T',T0,'D',rho0,'R134a');               %enthalpy at inlet [J/kg]
-u=refpropm('U','T',T0,'D',rho0,'R134a');                    %instantanious internal energy [J/kg]
+h_in = refpropm('H','T',T0,'D',rho0,'R134a');               %Specific enthalpy at inlet [J/kg]
+u=refpropm('U','T',T0,'D',rho0,'R134a');                    %Instantanious secific internal energy [J/kg]
 P=refpropm('P','T',T0,'D',rho0,'R134a');                    %instantanious pressure [kPa]
 P_s=refpropm('P','T',T0,'D',rho0,'R134a');                  %suction pressure [Kpa]
 P_d=P_s*PR;                                                 %Dischrge side pressure [Kpa]
@@ -86,7 +86,6 @@ error=1;
 T_w(1) = 300;
 T(1)=T0;
 rho(1)=rho0;
-%valve_dynamics(1)=0; %******Is this needed?
 x_valve_suc(1)=0;
 x_dot_valve_suc(1)=0;
 x_valve_dis(1)=0;
@@ -121,11 +120,11 @@ while error>tol_inner
 
     end
     
-    % total heat transfer for one cycle
+    %Total heat transfer for one cycle
     Q_dot_cyl(f) = trapz(Qdot)*(dtheta/w);
 
     % Friction Model
-    mu_oil = 0.486;             %oil viscosity, Pa-sec
+    mu_oil = 0.486;             %Oil viscosity, Pa-sec
     delta_gap = 0.000050;       %Gap width, meters
     l_piston = 0.02;            %Length of piston, meters
     A_length = pi*(B/100)*l_piston;
@@ -133,7 +132,7 @@ while error>tol_inner
     F_viscous = (mu_oil*A_length*u_ave)/delta_gap;
     W_dot_friction = (F_viscous*u_ave)/1000 
 
-    % Cylinder wall temperature calculation using heat transfer to ambient  
+    %Cylinder wall temperature calculation using heat transfer to ambient  
     if heat_transfer == 1
         [Q_dot_out(f),T_w(f+1)] = outer_HT(T_w(f));
         res_HT(f) = abs(Q_dot_out(f) - Q_dot_cyl(f) - W_dot_friction);
@@ -147,7 +146,7 @@ while error>tol_inner
     end
 
     if f>1
-        % residuals calculations
+        %Residuals calculations
         res_T(f)=1-abs(max(T./T_error));
         res_rho(f)=1-abs(max(rho./rho_error));
         disp(res_T(f))
@@ -241,7 +240,7 @@ Tab=table(rad',P',V',T',rho',mdot');
 col_header={'theta','Pressure','Volume','Temperature','Density','Mass'};
 output_matrix=[{' '} col_header ];
 %% *******Update below to a generic filename
-filename = 'C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work\results\PV_mat1.xlsx';
+filename = 'PV_mat1.xlsx';
 
 writetable(Tab,filename,'Sheet',1,'Range','B1');
 xlswrite(filename,output_matrix);

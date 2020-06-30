@@ -1,5 +1,8 @@
 function [ m_dot_in,m_dot_out,x_valve_suc,x_dot_valve_suc,x_valve_dis,x_dot_valve_dis ] = valve1(P_i,P_d,P,rho_i,rho,T_i,T,R,gamma,valve_dynamics,x_valve_suc_1,x_dot_valve_suc_1,x_valve_dis_1,x_dot_valve_dis_1,step,w)
-%Valve flow model
+%This function can be used to the calculate in and out 
+%flow through the valve for the reciprocating compressor
+%It will model the dynamic behavior of the valve if the 
+% valve dynamics is turned on
 
 
 %Calculate Valve Port Areas

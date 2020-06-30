@@ -1,47 +1,52 @@
- clear all
+%Simplified recriprocating compressor model with a Heun's Integrator. Part
+%of an electronic code annex for the work presented in Tanveer and Bradshaw
+%(2020) "Quantitative and Qualitative Evaluation of Various
+%Positive-Displacement Compressor Modeling Platforms" presented in Int. J.
+%of Ref.
+%
+%This model requires an installation of REFPROP and presumes it is
+%installed in the default directory. 
+%
+%Please reach out to mohsin.tanveer@okstate.edu or
+%craig.bradshaw@okstate.edu for questions about this model.
+
+%% Declarations and pre-processing
+clear all
 clc
 Folder = cd;
 addpath('functions');
 addpath('C:\Program Files (x86)\REFPROP');
-%% number of steps in one cycle
+%% Model Inputs - Numerics/Flags
 tic;
-n=7000;        %number of intervals
-tol_inner=1e-4;    % convergence tolerancr T, rho, T_w etc
-valve_dynamics = input('Turn on valve dynamics? 1 for on 0 for off: ');                     %Zero for off, One for on
-heat_transfer = input('Turn on heat transfer? 1 for on 0 for off: ');  
-%% Data
+n=15000;               %Number of steps
+tol_inner=1e-4;        %Convergence tolerancr T, rho, T_w etc
+valve_dynamics = input('Turn on valve dynamics? 1 for on 0 for off: ');   %Zero for off, One for on
+heat_transfer = input('Turn on heat transfer? 1 for on 0 for off: ');     %Zero for off, One for on
+%% Model Inputs - Comp parameters
 
-Vdead=8e-8;
-V_disp=8e-6;
-d=0.0059;                                     %valve diameter in m%
-    
-theta_01=linspace(0,360,n);                  %crank angle%
-rad=linspace(0,2*pi,n);                      %crank angle in radian
-
-N=3600;                                      %compressor RPM%
-B=2;                                     %cylinder bore diameter in cm%
-
-w=2*pi*N/60;                                 %angular speed
-%% Input fluid properties
+Vdead=8e-8;                  %Clearance volume of the compressor
+V_disp=8e-6;                 %Displacement volume of the compressor
+d=0.0059;                    %Valve diameter in m%
+theta_01=linspace(0,360,n);  %Crank angle%
+rad=linspace(0,2*pi,n);      %Crank angle in radian
+N=3600;                      %Compressor RPM%
+B=2;                         %Cylinder bore diameter in cm%
+w=2*pi*N/60;                 %Angular speed
+PR=2.5;                      %Compressor pressure ratio
+%% Model Inputs - Fluid properties
 
 
-rho0=23.75;                                          %density,[kg/m3], R134a%
-T0=293;                                             %eveaporation temperature or compressure inlet temperature[K]%
+rho0=23.75;                   %Density,[kg/m3], R134a%
+T0=293;                       %Eveaporation temperature or compressure inlet temperature[K]%
+R=81.49;                      %Specific gas constant[J/kg.k]
 
-h_in = refpropm('H','T',T0,'D',rho0,'R134a');                  %J/kg
-u=refpropm('U','T',T0,'D',rho0,'R134a');                    %J/kg
-P=refpropm('P','T',T0,'D',rho0,'R134a');                    %kPa
-% C_p=refpropm('C','T',T0,'D',rho0,'R134a');                  %J/kg.K
-% C_v=refpropm('O','T',T0,'D',rho0,'R134a');                  %J/kg.K
+%Calculation of input property data
+h_in = refpropm('H','T',T0,'D',rho0,'R134a');      %Specific enthalpy at inlet [J/kg]
+u=refpropm('U','T',T0,'D',rho0,'R134a');           %Instantanious specific internal energy [J/kg]
+P=refpropm('P','T',T0,'D',rho0,'R134a');           %Instantanious pressure [kPa]
+P_s=refpropm('P','T',T0,'D',rho0,'R134a');         %Suction pressure [Kpa]
+P_d=P_s*PR;                                        %Dischrge side pressure [Kpa]
 
-R=0.08149*1000;                                                  %specific gas constant[J/kg.k]
-% k=refpropm('k','T',T0,'D',rho0,'R134a');                    %Heat capacity ratio
-
-
-P_s=refpropm('P','T',T0,'D',rho0,'R134a');                                                 %Kpa
-P_d=P_s*2.5;                                                    %Kpa
-
-Qdot=0;                                                     %no heat transfer
 
 %% isentropic compression for isentropic eficiency calculation
 %Inlet Entropy
@@ -69,23 +74,22 @@ T_s_2 = T_isen(g);
 h_2_s = refpropm('H','T',T_s_2,'P',P_d,'R134a');
 h_2s=refpropm('H','P',P_d,'S',s_1,'R134a');
 %% Control Volume calculation
-
-
-
-
-dtheta=rad(2);
+dtheta=rad(2);      %Fixed step size
 
 %Property derivatives for compression equation
 [du_dT,du_drho]= prop_derivative(T0,rho0);
      
 
 %% Mass and Energy balance
- f=1 ;
-  error=1;
-  T_w(1) = 300;
-   T(1)=T0;
+
+%Initializations
+f=1 ;
+error=1;
+T_w(1) = 300;
+T(1)=T0;
 rho(1)=rho0;
 
+%Residual tolerance loop
 while error>tol_inner
     x_valve_suc(1)=0;
     x_dot_valve_suc(1)=0;
@@ -99,15 +103,21 @@ if f>1
     
     rho(1)=rho(n+1);
 end
+
+%Inner loop, iterating on crank angle
 for i=1:n
 k(i)=refpropm('K','T',T(i),'D',rho(i),'R134a');
 
-P(i)=refpropm('P','T',T(i),'D',rho(i),'R134a');               %kPa
+P(i)=refpropm('P','T',T(i),'D',rho(i),'R134a'); 
 
 
 [V(i),dV_dtheta(i)]=Volume(Vdead,V_disp,rad(i));
-[Qdot(i)]  = Ins_HT( T(i),rho(i),T_w(f),V(i),dV_dtheta(i),w,B,k(i),heat_transfer);       
+% Heat transfer from cylinder wall to the refrigerant
+[Qdot(i)]  = Ins_HT( T(i),rho(i),T_w(f),V(i),dV_dtheta(i),w,B,k(i),heat_transfer); 
+% Heun's method function for solution
 x23=heuns_sol_v(dtheta,Vdead,V_disp,rad(i),rho(i),T(i),du_drho,du_dT,w,h_in,P_s,P_d,T0,rho0,k(i),R,d,Qdot(i),valve_dynamics,x_valve_suc(i),x_dot_valve_suc(i),x_valve_dis(i),x_dot_valve_dis(i));
+
+% Assignment of varibales from the results of Heun's solver
 rho(i+1)=x23(1);
 T(i+1)=x23(2);
 x_valve_suc(i+1)=x23(3);
@@ -121,11 +131,13 @@ i=i+1;
 
 
 end
+
+%Total heat transfer for one cycle
 Q_dot_cyl(f) = trapz(Qdot)*(dtheta/w);
 
-% Friction Model
+%Friction Model
 
-    mu_oil = 0.486;             %oil viscosity, Pa-sec
+    mu_oil = 0.486;             %Oil viscosity, Pa-sec
     delta_gap = 0.000050;       %Gap width, meters
     l_piston = 0.02;            %Length of piston, meters
     A_length = pi*(B/100)*l_piston;
@@ -134,7 +146,7 @@ Q_dot_cyl(f) = trapz(Qdot)*(dtheta/w);
     W_dot_friction = (F_viscous*u_ave)/1000;
     W_dot_friction=0;
     
-    
+%Cylinder wall temperature calculation using heat transfer to ambient      
 if heat_transfer == 1
 [Q_dot_out(f),T_w(f+1)] = outer_HT(T_w(f));
         res_HT(f) = abs(Q_dot_out(f) - Q_dot_cyl(f) - W_dot_friction);
@@ -152,6 +164,7 @@ if heat_transfer == 1
 end
 
 if f>1
+%Residuals calculations
 res_T(f)=1-abs(max(T./T_error));
 res_rho(f)=1-abs(max(rho./rho_error));
 disp(res_T(f))
@@ -168,7 +181,7 @@ end
 
 
 %% Post processing --  Compressor performance parameters calculation
-% total mdot just for plots
+%Total mdot just for plots
 mdot=mdot_in-mdot_out;
 
 dtime=dtheta/w;
@@ -178,12 +191,12 @@ for s=1:1:length(dtheta)
     s=s+1;
 end
 time(end)=[];
-m_dot_tot_out =(N/60)* trapz(mdot_out.*dtime)         % average discjarge mass flow rate
-m_dot_tot_in = (N/60)*trapz(mdot_in.*dtime)           % average suction mass flow rate
-Wdot=m_dot_tot_out*(h_2_s-h_in)                       % isentropic power 
-eta_vol=m_dot_tot_in/(rho0*V_disp*(w/(2*pi)));        % volumetric efficiency
+m_dot_tot_out =(N/60)* trapz(mdot_out.*dtime)         % Average discjarge mass flow rate
+m_dot_tot_in = (N/60)*trapz(mdot_in.*dtime)           % Average suction mass flow rate
+Wdot=m_dot_tot_out*(h_2_s-h_in)                       % Isentropic power 
+eta_vol=m_dot_tot_in/(rho0*V_disp*(w/(2*pi)));        % Volumetric efficiency
 
-W_PV=trapz((((P*1000).*(dV_dtheta)).*dtheta)*(w/(2*pi))); % indicared power
+W_PV=trapz((((P*1000).*(dV_dtheta)).*dtheta)*(w/(2*pi))); % Indicared power
 
 %% Plots
  T(n+1)=[];
@@ -244,11 +257,13 @@ figure
 plot(rad,Qdot);title('Heat Transfer');
 toc
 
-
+%% Exporting the results to Excel
 Tab=table(rad',P',V',T',rho',mdot');
 col_header={'theta','Pressure','Volume','Temperature','Density','Mass'};
 output_matrix=[{' '} col_header ];
-filename = 'C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work\results\PV_mat2.xlsx';
+
+%% *******Update below to a generic filename
+filename = 'PV_mat2.xlsx';
 
 writetable(Tab,filename,'Sheet',1,'Range','B1');
 xlswrite(filename,output_matrix);

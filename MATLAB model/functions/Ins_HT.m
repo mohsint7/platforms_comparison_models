@@ -1,5 +1,5 @@
 function [ Q ] = Ins_HT( T,rho,T_w,V,dV_dT,w,d_piston,gamma,heat_transfer)
-
+%% This function calculates the heat transfer from cylinder wall to the refrigerant
 if heat_transfer == 1
 
 %%%%%%%%

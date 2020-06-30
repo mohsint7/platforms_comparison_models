@@ -1,4 +1,6 @@
 function [du_dT,du_drho]= prop_derivative(T,rho)
+
+%% This function calculates du/dt and du/drho
 T_1=T;
 rho_1=rho;
 

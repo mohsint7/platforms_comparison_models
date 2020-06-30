@@ -1,6 +1,6 @@
 function y2=heuns_sol(dtheta,V_dead,V_disp,theta,rho,T,du_drho,du_dT,w,hin,P_s,P_d,T0,rho0,k,R,d,Qdot,valve_dynamics,x_valve_suc,x_dot_valve_suc,x_valve_dis,x_dot_valve_dis)
 
-%% y1
+%% A simplified function based on Heun's method which will be used for cylce integration in compressor model
 
 P1=refpropm('P','T',T,'D',rho,'R134a');               %kPa
 

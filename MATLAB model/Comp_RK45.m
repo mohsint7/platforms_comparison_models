@@ -1,47 +1,51 @@
- clear all
+%Simplified recriprocating compressor model with a RK45 Integrator. Part
+%of an electronic code annex for the work presented in Tanveer and Bradshaw
+%(2020) "Quantitative and Qualitative Evaluation of Various
+%Positive-Displacement Compressor Modeling Platforms" presented in Int. J.
+%of Ref.
+%
+%This model requires an installation of REFPROP and presumes it is
+%installed in the default directory. 
+%
+%Please reach out to mohsin.tanveer@okstate.edu or
+%craig.bradshaw@okstate.edu for questions about this model.
+
+%% Declarations and pre-processing
+clear all
 clc
 Folder = cd;
 addpath('functions');
 addpath('C:\Program Files (x86)\REFPROP');
 format long
 tic
-%% number of steps in one cycle
-solver_tol=1e-7;             % solver tolerance
+%% Model Inputs - Numerics/Flags
+solver_tol=1e-7;             % RK45 error tolerance
 dtheta0=1e-4;                %initial step size to start the solver solver
 valve_dynamics = input('Turn on valve dynamics? 1 for on 0 for off: ');  %Zero for off, One for on
 heat_transfer = input('Turn on heat transfer? 1 for on 0 for off: ');    %Zero for off, One for on
 
-%% Compressor parameters
+%% Model Inputs - Comp parameters
 
-Vdead=8e-8;          %clearance volume [m]
-V_disp=8e-6;         % Displacement volume [m]
-d=0.0059;             %suction and discharge valve diameter in m%
+Vdead=8e-8;          %Clearance volume of the compressor
+V_disp=8e-6;         %Displacement volume of the compressor
+d=0.0059;            %Valve diameter in m%
+B=2;                 %Cylinder bore diameter in cm%
+w=377;               %Angular speed in rad/s
+N=60*w/(2*pi);       %RPM
+PR=2.5 ;             %Compressor pressure ratio
+%% Model Inputs - Fluid properties
+rho0=23.75;                                         %Density,[kg/m3], R134a%
+T0=293;                                             %Eveaporation temperature or compressure inlet temperature[K]%
+R=81.49;                                            %Specific gas constant[J/kg.k]
 
-
-B=2;                 %cylinder bore diameter in cm%
-w=377;               % Angular speed [rad/s]
-N=60*w/(2*pi);       % RPM
-PR=2.5 ;              %compressor pressure ratio
-
-
-
-
-
-%% initial conditions & suction side states
-rho0=23.75;                                          %density,[kg/m3], R134a%
-T0=293;                                             %eveaporation temperature or compressure inlet temperature[K]%
-
-%% fluid properties
-h_in = refpropm('H','T',T0,'D',rho0,'R134a');               %suction side enthalpy [J/kg]
-u=refpropm('U','T',T0,'D',rho0,'R134a');                    %J/kg
-P=refpropm('P','T',T0,'D',rho0,'R134a');                    %kP
-
-R=0.08314*1000;                                             %specific gas constant[J/kg.k]
+%Calculation of input property data
+h_in = refpropm('H','T',T0,'D',rho0,'R134a');       %Specific enthalpy at inlet [J/kg]
+u=refpropm('U','T',T0,'D',rho0,'R134a');            %Instantanious specific internal energy [J/kg]
+P=refpropm('P','T',T0,'D',rho0,'R134a');            %Instantanious pressure [kPa]
 
 
-P_s=refpropm('P','T',T0,'D',rho0,'R134a');                      %Kpa
-P_d=P_s*PR;                                                    %Kpa
-
+P_s=refpropm('P','T',T0,'D',rho0,'R134a');          %Suction pressure [Kpa]
+P_d=P_s*PR;                                         %Dischrge side pressure [Kpa]
 
 
 
@@ -58,7 +62,7 @@ x_dot_valve_dis(1)=0;
 
 
 
-%% isentropic compression for isentropic eficiency calculation
+%% Isentropic compression for isentropic eficiency calculation
 %Inlet Entropy
 s_1=refpropm('S','T',T0,'D',rho0,'R134a');
 
@@ -87,21 +91,22 @@ h_2_s = refpropm('H','T',T_s_2,'P',P_d,'R134a');
 h_2s=refpropm('H','P',P_d,'S',s_1,'R134a');
 
 %% Mass and Energy balance
-% vectors initialization
- f=1 ;
+%Vectors initialization
+f=1 ;
  
-  error=1;
-  rad(1)=0;
-  T_w(1) = 300;
-   T(1)=T0;
+error=1;
+rad(1)=0;
+T_w(1) = 300;
+T(1)=T0;
 rho(1)=rho0;
 dtheta1(1)=dtheta0;
 dtheta(1)=dtheta0;
 
+%Residual tolerance loop
 while error>1e-5
 i=1;
 if f>1
-    % resseting the vectors at after each iteration
+    %Resseting the vectors at after each iteration
     T_error=[];
     rho_error=[];
     T_error=T;
@@ -135,20 +140,25 @@ if f>1
     x_dot_valve_dis(1)=0;
     rad(1)=0;
     
-    % final state= initial state for convergence
+    %Final state= initial state for convergence
     T(1)=T_error(end);
     rho(1)=rho_error(end);
 end
+
+%Inner loop, iterating on crank angle
 while rad<2*pi
 k(i)=refpropm('K','T',T0,'D',rho0,'R134a');
 h(i)=refpropm('H','T',T(i),'D',rho(i),'R134a'); 
 P(i)=refpropm('P','T',T(i),'D',rho(i),'R134a');               %kPa
 [V(i),dV_dtheta(i)]=Volume(Vdead,V_disp,rad(i));
-% instantaneous heat transfer from cylinder wall to refrigerant
+
+% Heat transfer from cylinder wall to the refrigerant
 [Qdot(i)]  = Ins_HT( T(i),rho(i),T_w(f),V(i),dV_dtheta(i),w,B,k(i),heat_transfer);
-% Calling RK45 solver function for compression process equations
+
+%RK45 solver function for compression process equations
 x23=RK45_sol_v1(dtheta1(i),Vdead,V_disp,rad(i),rho(i),T(i),du_drho,du_dT,w,h_in,P_s,P_d,T0,rho0,k(i),R,d,Qdot(i),valve_dynamics,x_valve_suc(i),x_dot_valve_suc(i),x_valve_dis(i),x_dot_valve_dis(i),solver_tol);
-% seprating variables from solver results
+
+% Assignment of varibales from the results of Heun's solver
 rho(i+1)=x23(1);
 T(i+1)=x23(2);
 rad(i+1)=x23(3);
@@ -171,13 +181,14 @@ end
  % Calculating volume for just plotting purposes
  [V(i),dV_dtheta(i)]=Volume(Vdead,V_disp,rad(i));
  [Qdot(i)]  = Ins_HT( T(i),rho(i),T_w(f),V(i),dV_dtheta(i),w,B,k(i-1),heat_transfer);
- % total heat transfer calculation for one cycle
+
+%Total heat transfer for one cycle
 Qdot1=(Qdot.*dtheta)/w;
 Q_dot_cyl(f) = trapz(Qdot1);
 
 % Friction Model
 
-    mu_oil = 0.486;             %oil viscosity, Pa-sec
+    mu_oil = 0.486;             %Oil viscosity, Pa-sec
     delta_gap = 0.000050;       %Gap width, meters
     l_piston = 0.02;            %Length of piston, meters
     A_length = pi*(B/100)*l_piston;
@@ -185,8 +196,7 @@ Q_dot_cyl(f) = trapz(Qdot1);
     F_viscous = (mu_oil*A_length*u_ave)/delta_gap;
     W_dot_friction = (F_viscous*u_ave)/1000; 
     
-    % cylinder wall calculation from heat transfer between ambient and
-    % cylinder wall
+%Cylinder wall temperature calculation using heat transfer to ambient
 if heat_transfer == 1
 [Q_dot_out(f),T_w(f+1)] = outer_HT(T_w(f));
         res_HT(f) = abs(Q_dot_out(f) - Q_dot_cyl(f) - W_dot_friction);
@@ -202,7 +212,7 @@ if heat_transfer == 1
         T_w(f+1) = T_w(f);
         res_HT(f) = 0;
 end
-% residual calculations at the end of each iteration
+% Residual calculations at the end of each iteration
 if f>1
 res_T(f)=1-abs(max([T(1),T(end)]./[T_error(1),T_error(end)]));
 res_rho(f)=1-abs(max([rho(1),rho(end)]./[rho_error(1),rho_error(end)]));
@@ -218,6 +228,7 @@ if f>30
 end
 end
 
+%% Post processing --  Compressor performance parameters calculation
 % total mdot just for plots
 mdot=mdot_in-mdot_out;
 
@@ -243,12 +254,14 @@ for s=1:1:length(dtheta)
     s=s+1;
 end
 time(end)=[];
-m_dot_tot_out =(N/60)* trapz(mdot_out.*dtime)         % average discjarge mass flow rate
-m_dot_tot_in = (N/60)*trapz(mdot_in.*dtime)           % average suction mass flow rate
-Wdot=m_dot_tot_out*(h_2_s-h_in)                       % isentropic power 
-eta_vol=m_dot_tot_in/(rho0*V_disp*(w/(2*pi)));        % volumetric efficiency
 
-W_PV=trapz((((P*1000).*(dV_dtheta)).*dtheta)*(377/(2*pi))); % indicared power
+
+m_dot_tot_out =(N/60)* trapz(mdot_out.*dtime)               % Average discjarge mass flow rate
+m_dot_tot_in = (N/60)*trapz(mdot_in.*dtime)                 % Average suction mass flow rate
+Wdot=m_dot_tot_out*(h_2_s-h_in)                             % Isentropic power 
+eta_vol=m_dot_tot_in/(rho0*V_disp*(w/(2*pi)));              % Volumetric efficiency
+
+W_PV=trapz((((P*1000).*(dV_dtheta)).*dtheta)*(377/(2*pi))); % Indicared power
 %% Plots
 subplot(3,3,1);
 plot(rad,T,'k');
@@ -301,15 +314,13 @@ legend
 figure
 plot(rad,Qdot);title('Heat Transfer');
 
-%% writting results to excell file 
-% optional section. correct the directory address before running this
-% portion of the code
-
-
+%% Exporting the results to Excel
 Tab=table(rad',P',V',T',rho',mdot',dtheta',x_valve_suc',x_valve_dis');
 col_header={'theta','Pressure','Volume','Temperature','Density','Mass','dtheta','suction_lift','discharge_lift'};
 output_matrix=[{' '} col_header ];
-filename = 'C:\Users\Mohsin\OneDrive - Oklahoma A and M System\Documents\Phd\compressor_model_work\Software comparison work\results\PV_mat3.xlsx';
+
+%% *******Update below to a generic filename
+filename = 'PV_mat3.xlsx';
 
 writetable(Tab,filename,'Sheet',1,'Range','B1');
 xlswrite(filename,output_matrix);

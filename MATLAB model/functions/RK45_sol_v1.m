@@ -1,5 +1,5 @@
 function x=RK45_sol(dtheta,V_dead,V_disp,theta,rhoi,Ti,du_drho,du_dT,w,hin,P_s,P_d,T0,rho0,k,R,d,Qdot,valve_dynamics,x_valve_suc,x_dot_valve_suc,x_valve_dis,x_dot_valve_dis,error_allowed)
-%% f1
+%% A simplified function based on RK45 integration technique which will be used for cycle integration in compressor model
 g=1;
 %initialization
 error=1;           
